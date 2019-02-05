@@ -1,0 +1,45 @@
+** TODOs
+
+Efficient data structure for computing Optimal Partitioning models.
+
+Basic structure is a binary search tree, probably best to implement on
+top of a C++ STL map.
+
+Assume data set of size d.
+
+Assume we have a solver OP(lambda) -> segments, loss. O(d log d)
+
+Let N be the number of elements in the data structure.
+
+Public Methods
+- getModelForPenalty(lambda): find l1<=lambda<l2 in O(log N). If
+  l1==lambda then return stored segments for l1 in O(1). If stored
+  segments2=segments1-1 then return segments in O(1). Otherwise run
+  OP(lambda) and store result for lambda in O(1).
+
+Private Methods
+- insertModel(lambda, segments, loss): O(log N) -- useful if we have a
+  bunch of pre-computed models on disk.
+
+Application: compute the full path on the benchmark data, see if the
+min error that we get from the target interval algo is the same as the
+actual min error. Analyze computation time: using data structure we
+should be log-linear rather than quadratic.
+
+Application: compare O(N^2) Segment Neighborhood algo (jointseg::Fpsn)
+with our algo. 1-we can do parallel eval with OP. 2- only 73% of SN
+models are actually computable via OP. 3-modelSelection code is linear
+time.
+
+Parallel full path algo. 
+
+** 4 Feb 2019
+
+[[file:loss.small.R]] computes full path of loss values for all 13,000+
+neuroblastoma data sets with less than 1000 data points.
+
+[[file:figure-loss-small.R]] visualizes the corresponding model selection
+functions. [[http://bl.ocks.org/tdhock/raw/4a48f4d12fcfec9b87b6d366133c2122/][viz]]
+
+[[file:figure-loss-small.png]]
+
