@@ -43,3 +43,6 @@ functions. [[http://bl.ocks.org/tdhock/raw/4a48f4d12fcfec9b87b6d366133c2122/][vi
 
 [[file:figure-loss-small.png]]
 
+[[file:figure-loss-small-data.R]] also shows the data sets and
+segmentation models. [[http://bl.ocks.org/tdhock/raw/182de81306b231384af31490a7c5b908/][viz]]
+

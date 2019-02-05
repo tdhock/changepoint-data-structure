@@ -51,15 +51,27 @@ some.segs <- some.nb[, {
 some.selection <- some.loss[selected=="yes", {
   penaltyLearning::modelSelection(.SD, complexity="changes")
 }, by=list(profile.id, chromosome)]
-some.loss[, mean.loss := loss/models]
-some.stats <- some.loss[, list(
-  min=min(mean.loss),
-  max=max(mean.loss)
-), by=list(profile.id, chromosome)]
-range(some.stats$max)#better
+some.breaks <- some.segs[0 < changes, list(
+  megabases=(segStart[-1]+segEnd[-.N])/2e6
+), by=list(profile.id, chromosome, changes)]
+some.segs[, beforeStart := {
+  c(
+    segStart[1]-1,
+    (segStart[-1]+segEnd[-.N])/2)/1e6
+}, by=list(profile.id, chromosome, changes)]
+some.segs[, afterEnd := {
+  c(
+  (segStart[-1]+segEnd[-.N])/2,
+  segEnd[.N]+1)/1e6
+}, by=list(profile.id, chromosome, changes)]
 
+some.nb[, megabases := position/1e6]
+some.nb[, pid.chr := paste0(profile.id, ".", chromosome)]
+some.breaks[, pid.chr := paste0(profile.id, ".", chromosome)]
 some.loss[, pid.chr := paste0(profile.id, ".", chromosome)]
 some.loss[, penalty := 0]
+some.loss[, min.changes := changes-0.5]
+some.loss[, max.changes := changes+0.5]
 some.props[, pid.chr := paste0(profile.id, ".", chromosome)]
 some.selection[, pid.chr := paste0(profile.id, ".", chromosome)]
 some.segs[, pid.chr := paste0(profile.id, ".", chromosome)]
@@ -81,21 +93,30 @@ viz <- animint(
       alpha=0.7,
       data=data.frame(some.props)),
   data=ggplot()+
-    geom_point(aes(
-      position/1e6, logratio),
-      showSelected="pid.chr",
-      data=some.nb)+
+    ggtitle("Selected data set and model")+
+    theme_bw()+
+    ##theme_animint(update_axes=c("x", "y"))+
+    xlab("Position on chromosome (mega bases)")+
+    ylab("logratio (approximate DNA copy number")+
     geom_segment(aes(
-      segStart/1e6, mean,
-      xend=segEnd/1e6, yend=mean),
+      beforeStart, mean,
+      xend=afterEnd, yend=mean),
       showSelected=c("pid.chr", "changes"),
       color="green",
-      data=some.segs)+
+      data=data.frame(some.segs))+
     geom_vline(aes(
-      xintercept=position/1e6),
+      xintercept=megabases),
       showSelected=c("pid.chr", "changes"),
       color="green",
-      data=some.breaks),
+      chunk_vars="pid.chr",
+      linetype="dashed",
+      data=data.frame(some.breaks))+
+    geom_point(aes(
+      megabases, logratio),
+      shape=21,
+      fill=NA,
+      showSelected="pid.chr",
+      data=data.frame(some.nb)),
   loss=ggplot()+
     ggtitle("Loss values for selected data set")+
     ylab("loss")+
@@ -109,7 +130,7 @@ viz <- animint(
         " models selected by linear penalty")),
       showSelected="pid.chr",
       hjust=1,
-      data=some.props)+
+      data=data.frame(some.props))+
     geom_point(aes(
       changes, loss, color=selected, size=selected),
       shape=21,
@@ -117,9 +138,10 @@ viz <- animint(
       showSelected="pid.chr",
       data=data.frame(some.loss))+
     geom_tallrect(aes(
-      xmin=changes-0.5, xmax=changes+0.5),
-      data=some.loss,
+      xmin=min.changes, xmax=max.changes),
+      data=data.frame(some.loss),
       alpha=0.5,
+      showSelected="pid.chr",
       clickSelects="changes"),
   lines=ggplot()+
     ggtitle("Cost functions for selected data set")+
@@ -143,26 +165,19 @@ viz <- animint(
       showSelected="pid.chr",
       chunk_vars="pid.chr",
       data=data.frame(some.loss))+
-    geom_tallrect(aes(
-      xmin=min.lambda, xmax=max.lambda),
-      alpha=0.5,
-      clickSelects="changes",
-      data=some.selection)
+    geom_abline(aes(
+      slope=changes, intercept=loss, color=selected),
+      size=2,
+      showSelected=c("pid.chr", "changes"),
+      chunk_vars="pid.chr",
+      data=data.frame(some.loss))
+    ## geom_tallrect(aes(
+    ##   xmin=min.lambda, xmax=max.lambda),
+    ##   alpha=0.5,
+    ##   clickSelects="changes",
+    ##   showSelected="pid.chr",
+    ##   data=some.selection)
 )
-animint2dir(viz, "figure-loss-small")
-##animint2gist(viz)
+animint2dir(viz, "figure-loss-small-data")
+animint2gist(viz)
 
-gg <- ggplot()+
-  ggtitle(paste0(
-    nrow(prop.dt), " neuroblastoma data sets"))+
-  theme_bw()+
-  scale_x_log10(
-    "Number of data to segment",
-    breaks=c(range(prop.dt$models), 10, 100))+
-  geom_point(aes(
-    models, prop.selected),
-    shape=21,
-    data=prop.dt)
-png("figure-loss-small.png")
-print(gg)
-dev.off()
