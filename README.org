@@ -33,6 +33,11 @@ time.
 
 Parallel full path algo. 
 
+** 6 Feb 2019
+[[file:no.intermediates.selected.R]] exhibits a set of valid
+loss/complexity values for which no intermediates are selected -- how
+many pops does this cause?
+
 ** 4 Feb 2019
 
 [[file:loss.small.R]] computes full path of loss values for all 13,000+
