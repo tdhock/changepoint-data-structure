@@ -33,6 +33,16 @@ time.
 
 Parallel full path algo. 
 
+** 3 May 2019
+
+[[file:figure-fullpath-db-timing.R]] makes
+
+[[file:figure-fullpath-db-timing.png]]
+
+[[file:figure-loss-small-evals.R]]
+
+[[file:figure-loss-small-evals.tex]] and [[file:figures.pdf]]
+
 ** 6 Feb 2019
 [[file:no.intermediates.selected.R]] exhibits a set of valid
 loss/complexity values for which no intermediates are selected -- how
