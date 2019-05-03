@@ -17,3 +17,4 @@ result <- .C(
   PACKAGE="penaltyLearning")
 print(result)
 sum(result$evals)
+result

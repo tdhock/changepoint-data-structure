@@ -1,3 +1,6 @@
+*.aux
+*.log
+auto
 *~
 .Rhistory
 Rplots.pdf
