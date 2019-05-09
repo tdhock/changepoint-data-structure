@@ -1,3 +1,7 @@
+neuroblastoma.grid.rds: neuroblastoma.grid.R
+	R --vanilla < $<
+fullpath.grid.timing.rds: fullpath.grid.timing.R
+	R --vanilla < $<
 figures.pdf: figures.tex figure-loss-small-evals.tex
 	pdflatex figures
 figure-loss-small-data/index.html: figure-loss-small-data.R loss.small.rds
