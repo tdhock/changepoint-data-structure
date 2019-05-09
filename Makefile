@@ -1,3 +1,9 @@
+chipseq.cv.rds: chipseq.cv.R
+	R --vanilla < $<
+chipseq.grid.rds: chipseq.grid.R
+	R --vanilla < $<
+neuroblastoma.cv.rds: neuroblastoma.cv.R
+	R --vanilla < $<
 neuroblastoma.grid.rds: neuroblastoma.grid.R
 	R --vanilla < $<
 fullpath.grid.timing.rds: fullpath.grid.timing.R
