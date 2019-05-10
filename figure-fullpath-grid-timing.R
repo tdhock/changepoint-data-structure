@@ -1,38 +1,12 @@
 source("packages.R")
 
-if(!file.exists("db-loss.tsv")){
-  download.file(
-    "https://rcdata.nau.edu/genomic-ml/fullpath/db-loss.tsv",
-    "db-loss.tsv")
-}
-db.loss <- fread("db-loss.tsv")
-
-count.dt <- db.loss[, list(
-  models=.N
-  ), by=list(prob.id)]
-biggest <- count.dt[which.max(models)]
-one.dt <- db.loss[biggest, on=list(prob.id)][order(peaks)][c(TRUE, 0 < diff(peaks))][total.loss==cummin(total.loss)][c(TRUE, diff(total.loss) < 0)]
-
-exact.dt <- data.table(microbenchmark::microbenchmark(
-  "Exact_linear"=.C(
-    "modelSelectionFwd_interface",
-    loss=as.double(one.dt$total.loss),
-    complexity=as.double(one.dt$segments),
-    N=as.integer(nrow(one.dt)),
-    models=integer(nrow(one.dt)),
-    breaks=double(nrow(one.dt)),
-    evals=integer(nrow(one.dt)),
-    PACKAGE="penaltyLearning"),
-  "Exact_quadratic"=.C(
-    "modelSelectionQuadratic_interface",
-    loss=as.double(one.dt$total.loss),
-    complexity=as.double(one.dt$segments),
-    N=as.integer(nrow(one.dt)),
-    models=integer(nrow(one.dt)),
-    breaks=double(nrow(one.dt)),
-    PACKAGE="penaltyLearning"),
-  times=10
-))
+db.times <- readRDS("fullpath.db.timing.rds")
+big.times <- db.times[N==max(N)]
+big.times[, seconds := time/1e9]
+big.stats <- big.times[, list(
+  mean=mean(seconds),
+  sd=sd(seconds)
+  ), by=list(expr)]
 
 ## 1 to 1463689 segments, 0 to 731844 peaks. 287443 decreasing loss values.
 timing.dt <- readRDS("fullpath.grid.timing.rds")
@@ -40,15 +14,68 @@ timing.dt <- readRDS("fullpath.grid.timing.rds")
 ## pen range -18  15
 ## loss range "-2.287049e+08" "-1.176847e+08"
 
-timing.dt[, algorithm := "Grid search"]
-
+timing.dt[, algorithm := "Approx_grid"]
+big.stats[, algorithm := paste0("Exact_", expr)]
+br.vec <- 10^seq(-2, 3)
 ggplot()+
   geom_line(aes(
-    n.grid, mean.seconds),
+    n.grid, mean.seconds, color=algorithm),
     data=timing.dt)+
   geom_ribbon(aes(
-    n.grid, ymin=mean.seconds-sd.seconds, ymax=mean.seconds+sd.seconds),
+    n.grid, fill=algorithm, 
+    ymin=mean.seconds-sd.seconds, ymax=mean.seconds+sd.seconds),
     alpha=0.5,
     data=timing.dt)+
   scale_x_log10()+
-  scale_y_log10()
+  scale_y_log10(
+    "",
+    breaks=br.vec,
+    limits=range(br.vec))+
+  theme_bw()+
+  geom_rect(aes(
+    xmin=-Inf, xmax=Inf,
+    fill=algorithm,
+    ymin=mean-sd, ymax=mean+sd),
+    data=big.stats)+
+  geom_hline(aes(
+    yintercept=mean,
+    color=algorithm),
+    data=big.stats)
+
+gfac <- function(x){
+  factor(x, c(10^seq(1, 4), "Exact"))
+}
+timing.dt[, grid.fac := gfac(n.grid)]
+big.stats[, grid.fac := gfac("Exact")]
+both.dt <- rbind(
+  timing.dt[, .(mean=mean.seconds, sd=sd.seconds, algorithm, grid.fac)],
+  big.stats[, .(mean, sd, algorithm, grid.fac)])
+text.dt <- both.dt[, .SD[which.max(grid.fac)], by=list(algorithm)]
+gg <- ggplot()+
+  xlab("Grid points used in approximate computation")+
+  scale_y_log10(
+    "Time to compute model selection function",
+    breaks=br.vec,
+    limits=range(br.vec))+
+  theme_bw()+
+  geom_segment(aes(
+    grid.fac, mean-sd,
+    xend=grid.fac, yend=mean+sd,
+    color=algorithm),
+    data=both.dt)+
+  geom_point(aes(
+    grid.fac, mean,
+    color=algorithm),
+    shape=1,
+    data=both.dt)+
+  geom_text(aes(
+    grid.fac, mean,
+    color=algorithm,
+    label=paste0(algorithm, "  ")),
+    hjust=1,
+    vjust=1,
+    data=text.dt)+
+  guides(color="none")
+png("figure-fullpath-grid-timing.png", 4, 3.2, units="in", res=300)
+print(gg)
+dev.off()

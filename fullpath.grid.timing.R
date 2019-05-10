@@ -24,8 +24,8 @@ pen.range.vec <- select.dt[, c(
 
 timing.dt.list <- list()
 n.grid <- 10
-n.unique <- 0
-while(n.unique < nrow(select.dt)){
+dt <- data.table(mean.seconds=0)
+while(dt$mean.seconds < 60){
   pen.grid.vec <- exp(seq(pen.range.vec[1], pen.range.vec[2], l=n.grid))
   time.df <- microbenchmark::microbenchmark(
     selected.segs.vec <- sapply(pen.grid.vec, best.segs),
