@@ -1,3 +1,5 @@
+figure-fullpath-db-timing.png: figure-fullpath-db-timing.R fullpath.db.timing.rds
+	R --vanilla < $<
 chipseq.cv.rds: chipseq.cv.R
 	R --vanilla < $<
 chipseq.grid.rds: chipseq.grid.R
@@ -7,6 +9,8 @@ neuroblastoma.cv.rds: neuroblastoma.cv.R
 neuroblastoma.grid.rds: neuroblastoma.grid.R
 	R --vanilla < $<
 fullpath.grid.timing.rds: fullpath.grid.timing.R
+	R --vanilla < $<
+fullpath.db.timing.rds: fullpath.db.timing.R
 	R --vanilla < $<
 figures.pdf: figures.tex figure-loss-small-evals.tex
 	pdflatex figures
