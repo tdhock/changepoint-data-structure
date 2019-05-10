@@ -67,7 +67,7 @@ options(repos=c(
 works_with_R(
   "3.5.2",
   curl="3.3",
-  "tdhock/penaltyLearning@a0f96da8f7c32066f07942aa301fdc5e1ba9615c",
+  ##"tdhock/penaltyLearning@a0f96da8f7c32066f07942aa301fdc5e1ba9615c",
   microbenchmark="1.4.6",
   data.table="1.12.2",
   ggplot2="3.1.1")

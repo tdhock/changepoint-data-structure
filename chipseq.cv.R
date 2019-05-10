@@ -59,13 +59,20 @@ OneSet <- function(test.set.i){
   ## TODO filter -Inf, Inf rows
   test.features <- data.list$features[test.targets, on=list(prob.dir)]
   test.X <- as.matrix(test.features[, col.name.list$features, with=FALSE])
-  is.trivial <- any(colSums(is.finite(train.mat.list$targets))==0)
+  finite.limits <- colSums(is.finite(train.mat.list$targets))
+  n.folds <- min(finite.limits, 5)
+  is.trivial <- n.folds < 2
   pred.log.lambda <- if(is.trivial){
     rep(0, nrow(test.features))
   }else{
+    min.col <- which.min(finite.limits)
+    is.finite.min <- is.finite(train.mat.list$targets[, min.col])
+    fold.vec <- rep(NA, l=nrow(train.mat.list$targets))
     set.seed(1)
+    fold.vec[is.finite.min] <- sample(rep(1:n.folds, l=sum(is.finite.min)))
+    fold.vec[!is.finite.min] <- sample(rep(1:n.folds, l=sum(!is.finite.min)))
     fit <- with(train.mat.list, penaltyLearning::IntervalRegressionCV(
-      features, targets))
+      features, targets, fold.vec=fold.vec))
     as.numeric(fit$predict(test.X))
   }
   pred.dt <- data.table(
