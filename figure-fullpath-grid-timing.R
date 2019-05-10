@@ -54,7 +54,7 @@ text.dt <- both.dt[, .SD[which.max(grid.fac)], by=list(algorithm)]
 gg <- ggplot()+
   xlab("Grid points used in approximate computation")+
   scale_y_log10(
-    "Time to compute model selection function",
+    "Seconds to compute model selection function",
     breaks=br.vec,
     limits=range(br.vec))+
   theme_bw()+
@@ -76,6 +76,6 @@ gg <- ggplot()+
     vjust=1,
     data=text.dt)+
   guides(color="none")
-png("figure-fullpath-grid-timing.png", 4, 3.2, units="in", res=300)
+png("figure-fullpath-grid-timing.png", 4, 3.5, units="in", res=300)
 print(gg)
 dev.off()
