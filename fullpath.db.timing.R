@@ -1,6 +1,4 @@
-library(data.table)
-library(penaltyLearning)
-library(microbenchmark)
+source("packages.R")
 if(!file.exists("db-loss.tsv")){
   download.file(
     "https://rcdata.nau.edu/genomic-ml/fullpath/db-loss.tsv",
