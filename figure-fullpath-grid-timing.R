@@ -58,6 +58,10 @@ gg <- ggplot()+
     breaks=br.vec,
     limits=range(br.vec))+
   theme_bw()+
+  scale_color_manual(values=c(
+    Exact_linear="black",
+    Exact_quadratic="blue",
+    Approx_grid="red"))+
   geom_segment(aes(
     grid.fac, mean-sd,
     xend=grid.fac, yend=mean+sd,
