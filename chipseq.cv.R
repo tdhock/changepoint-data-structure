@@ -48,13 +48,15 @@ OneSet <- function(test.set.i){
     targets=all.targets[fold != test.set$fold])
   train.dt.list$features <- data.list$features[
     train.dt.list$targets, on=list(prob.dir)]
+  keep <- train.dt.list$targets[, is.finite(min.log.lambda) | is.finite(max.log.lambda)]
   train.mat.list <- list()
   for(data.type in names(train.dt.list)){
     col.name.vec <- col.name.list[[data.type]]
     train.mat.list[[data.type]] <- as.matrix(
-      train.dt.list[[data.type]][, col.name.vec, with=FALSE])
+      train.dt.list[[data.type]][keep, col.name.vec, with=FALSE])
   }
   test.targets <- all.targets[fold == test.set$fold]
+  ## TODO filter -Inf, Inf rows
   test.features <- data.list$features[test.targets, on=list(prob.dir)]
   test.X <- as.matrix(test.features[, col.name.list$features, with=FALSE])
   is.trivial <- any(colSums(is.finite(train.mat.list$targets))==0)
