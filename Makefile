@@ -1,3 +1,5 @@
+figure-fullpath-grid-timing.png: figure-fullpath-grid-timing.R fullpath.grid.timing.rds
+	R --vanilla < $<
 figure-fullpath-db-timing.png: figure-fullpath-db-timing.R fullpath.db.timing.rds
 	R --vanilla < $<
 chipseq.cv.rds: chipseq.cv.R

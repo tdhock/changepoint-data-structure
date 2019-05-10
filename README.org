@@ -33,6 +33,9 @@ time.
 
 Parallel full path algo. 
 
+** 10 May 2019
+[[file:figure-fullpath-grid-timing.R]] makes
+[[file:figure-fullpath-grid-timing.png]]
 ** 3 May 2019
 
 [[file:figure-fullpath-db-timing.R]] makes

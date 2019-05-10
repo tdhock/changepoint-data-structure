@@ -32,11 +32,17 @@ ref.dt <- data.table(
   seconds=c(1, 60),
   label=paste(" 1", c("second", "minute")))
 max.dt <- timing.stats[N==1e5]
+algo.colors <- c(
+  linear="black",
+  quadratic="blue",
+  Approx_grid="red")
 gg <- ggplot()+
   geom_hline(aes(
     yintercept=seconds),
     data=ref.dt,
     color="grey")+
+  scale_color_manual(values=algo.colors)+
+  scale_fill_manual(values=algo.colors)+
   geom_text(aes(
     1e1, seconds, label=label),
     data=ref.dt,
