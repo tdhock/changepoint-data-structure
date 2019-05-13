@@ -101,7 +101,7 @@ upper bound"),
 data.type="synthetic"))
 data.colors <- c(
   neuroblastoma="black",
-  synthetic="red")
+  synthetic="#A020F0")
 gg <- ggplot()+
   geom_text(aes(
     x, y, color=data.type, hjust=hjust, vjust=vjust, label=label),
