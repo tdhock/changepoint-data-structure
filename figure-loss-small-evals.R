@@ -2,6 +2,10 @@ library(penaltyLearning)
 library(data.table)
 library(ggplot2)
 library(tikzDevice)
+options(
+  tikzDocumentDeclaration=paste(
+    "\\documentclass[12pt]{article}"),
+  tikzMetricsDictionary="tikzMetrics")
 
 loss.small.evals <- readRDS("loss.small.evals.rds")
 
@@ -70,14 +74,14 @@ both.dt <- rbind(
   d("neuroblastoma", loss.small.evals[models.in>thresh][sample(nsamp)]),
   d("synthetic", limit.dt))
 bound.dt <- rbind(
-  data.table(latex="\\leq 2N-3", bound="upper", hjust=1, vjust=1, x=400, y=1050),
+  data.table(latex="\\leq 2N-3", bound="upper", hjust=1, vjust=1, x=425, y=1126),
   data.table(latex="\\geq N-1", bound="lower", hjust=0, vjust=1, x=520, y=490))
 bound.color <- "grey50"
 break.vec <- seq(250, 1000, by=250)
 data.labels <- rbind(
   data.table(
-    x=750,
-    y=950,
+    x=745,
+    y=955,
     hjust=0.5,
     vjust=0.5,
     label=sprintf(
@@ -89,7 +93,7 @@ data.table(
   label=paste0("$L_t = N-t$, synthetic data achieving lower bound"),
   data.type="synthetic"),
 data.table(
-  x=2, y=800, hjust=0, vjust=1,
+  x=-10, y=800, hjust=0, vjust=1,
   label=paste0(
     "$L_t = N-t+I[1<t<N]/2$,
 synthetic data achieving
@@ -140,6 +144,6 @@ data=bound.dt)+
     breaks=c(range(both.dt$total.evals), break.vec))+
   guides(color="none")
 ##print(gg)
-tikz("figure-loss-small-evals.tex", 6, 3)
+tikz("figure-loss-small-evals.tex", 5.5, 2.1)
 print(gg)
 dev.off()
