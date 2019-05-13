@@ -22,7 +22,7 @@ ggplot()+
     n.grid, mean.seconds, color=algorithm),
     data=timing.dt)+
   geom_ribbon(aes(
-    n.grid, fill=algorithm, 
+    n.grid, fill=algorithm,
     ymin=mean.seconds-sd.seconds, ymax=mean.seconds+sd.seconds),
     alpha=0.5,
     data=timing.dt)+
@@ -48,13 +48,12 @@ gfac <- function(x){
 timing.dt[, grid.fac := gfac(n.grid)]
 big.stats[, grid.fac := gfac("Exact")]
 big.stats[, n.grid := Inf]
+
 both.dt <- rbind(
   timing.dt[, .(
     mean=mean.seconds, sd=sd.seconds, algorithm, grid.fac, n.grid)],
   big.stats[, .(mean, sd, algorithm, grid.fac, n.grid)])
 text.dt <- both.dt[, .SD[which.max(grid.fac)], by=list(algorithm)]
-
-
 ## from other file.
 fullpath.db.timing[, seconds := time/1e9]
 timing.stats <- fullpath.db.timing[, list(
@@ -76,11 +75,16 @@ algo.colors <- c(
   Approx_grid="red")
 models.var <- "N = number of input models to select
 (exact algorithms only)"
-grid.var <- "Grid points used in approximate computation"
-both.dt[, xvar := grid.var]
-text.dt[, xvar := grid.var]
-timing.stats[, xvar := models.var]
-max.dt[, xvar := models.var]
+grid.var <- paste0(
+  "Grid points used in approximate computation
+N=", max(timing.stats$N), " input models to select")
+xfac <- function(x){
+  factor(x, c(models.var, grid.var))
+}
+both.dt[, xvar := xfac(grid.var)]
+text.dt[, xvar := xfac(grid.var)]
+timing.stats[, xvar := xfac(models.var)]
+max.dt[, xvar := xfac(models.var)]
 gg <- ggplot()+
   facet_grid(. ~ xvar, scales="free")+
   geom_hline(aes(
@@ -91,7 +95,7 @@ gg <- ggplot()+
   scale_fill_manual(values=algo.colors)+
   geom_text(aes(
     1e1, seconds, label=label),
-    data=data.table(ref.dt, xvar=models.var),
+    data=data.table(ref.dt, xvar=xfac(models.var)),
     color="grey",
     hjust=0,
     vjust=-0.5)+
@@ -127,7 +131,7 @@ gg <- ggplot()+
     data=both.dt)+
   geom_blank(aes(
     x, y),
-    data=data.table(xvar=models.var, x=5e6, y=1))+
+    data=data.table(xvar=xfac(models.var), x=5e6, y=1))+
   geom_text(aes(
     n.grid, mean,
     color=algorithm,
@@ -135,7 +139,7 @@ gg <- ggplot()+
     hjust=1,
     vjust=0.5,
     data=text.dt)+
-  scale_x_log10("")+
+  scale_x_log10("", breaks=10^seq(1, 6))+
   guides(fill="none", color="none")+
   scale_y_log10("Time to compute model
 selection function (seconds)")
