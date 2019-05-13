@@ -18,13 +18,13 @@ set.stats <- cv[set.name %in% c("H3K27ac_TDH_some", "H3K27me3_TDH_some", "H3K36m
   sd=sd(accuracy.percent)
 ), by=list(n.grid, set.name)]
 set.stats[, algorithm := factor(
-  ifelse(n.grid==Inf, "Exact_linear", "Approx_grid"),
-  c("Exact_linear", "Approx_grid"))]
+  ifelse(n.grid==Inf, "Exact\nlinear", "Approx\ngrid"),
+  c("Exact\nlinear", "Approx\ngrid"))]
 algo.colors <- c(
-  Approx_grid="red",
-  Exact_linear="black")
+  "Approx\ngrid"="red",
+  "Exact\nlinear"="black")
 set.stats[, `Data set` := paste0("\n", set.name)]
-exact.dt <- set.stats[algorithm=="Exact_linear"]
+exact.dt <- set.stats[algorithm=="Exact\nlinear"]
 gg <- ggplot()+
   geom_point(aes(
     n.grid, mean, color=algorithm),
@@ -39,7 +39,7 @@ gg <- ggplot()+
     data=exact.dt)+
   geom_line(aes(
     n.grid, mean, color=algorithm),
-    data=set.stats[algorithm=="Approx_grid"])+
+    data=set.stats[algorithm=="Approx\ngrid"])+
   scale_color_manual(values=algo.colors)+
   scale_fill_manual(values=algo.colors)+
   geom_ribbon(aes(
@@ -50,13 +50,13 @@ gg <- ggplot()+
   theme_bw()+
   guides(fill="none")+
   theme(panel.margin=grid::unit(0, "lines"))+
-  ylab("Percent correctly predicted labels
-in 4-fold cross-validation
-(mean +/- SD over 4 test folds)")+
+  scale_y_continuous("Percent correctly predicted labels
+in cross-validation (mean +/- SD
+over 4 test folds, linear scale)", limits=c(0, 100), breaks=seq(0, 100, by=20))+
   scale_x_log10(
-    "Grid points used in approximate computation of model selection function")
+    "Grid points used in approximate computation of model selection function (log scale)")
 print(gg)
-png("figure-chipseq-cv.png", 9, 2.5, units="in", res=300)
+png("figure-chipseq-cv.png", 8.5, 2.5, units="in", res=300)
 print(gg)
 dev.off()
 
