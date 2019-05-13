@@ -23,6 +23,7 @@ set.stats[, algorithm := factor(
 algo.colors <- c(
   Approx_grid="red",
   Exact_linear="black")
+set.stats[, `Data set` := paste0("\n", set.name)]
 exact.dt <- set.stats[algorithm=="Exact_linear"]
 gg <- ggplot()+
   geom_point(aes(
@@ -45,16 +46,17 @@ gg <- ggplot()+
     n.grid, ymin=mean-sd, ymax=mean+sd, fill=algorithm),
     data=set.stats,
     alpha=0.5)+
-  facet_grid(. ~ set.name, scales="free")+
+  facet_grid(. ~ `Data set`, scales="free", labeller=label_both)+
   theme_bw()+
   guides(fill="none")+
   theme(panel.margin=grid::unit(0, "lines"))+
-  ylab("Percent test accuracy
+  ylab("Percent correctly predicted labels
 in 4-fold cross-validation
-(mean +/- SD)")+
+(mean +/- SD over 4 test folds)")+
   scale_x_log10(
     "Grid points used in approximate computation of model selection function")
-png("figure-chipseq-cv.png", 10, 2.5, units="in", res=300)
+print(gg)
+png("figure-chipseq-cv.png", 9, 2.5, units="in", res=300)
 print(gg)
 dev.off()
 
