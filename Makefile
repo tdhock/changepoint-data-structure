@@ -1,3 +1,5 @@
+figures.pdf: figures.tex figure-loss-small-evals.tex
+	pdflatex figures
 figure-fullpath-grid-timing.png: figure-fullpath-grid-timing.R fullpath.grid.timing.rds
 	R --vanilla < $<
 figure-fullpath-db-timing.png: figure-fullpath-db-timing.R fullpath.db.timing.rds
@@ -14,8 +16,6 @@ fullpath.grid.timing.rds: fullpath.grid.timing.R
 	R --vanilla < $<
 fullpath.db.timing.rds: fullpath.db.timing.R
 	R --vanilla < $<
-figures.pdf: figures.tex figure-loss-small-evals.tex
-	pdflatex figures
 figure-loss-small-data/index.html: figure-loss-small-data.R loss.small.rds
 	R --vanilla < $<
 figure-loss-small-evals.tex: figure-loss-small-evals.R loss.small.evals.rds
