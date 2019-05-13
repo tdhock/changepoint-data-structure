@@ -37,6 +37,7 @@ gg <- ggplot()+
     x=min.lambda,
     y=loss+k*min.lambda,
     label=sprintf("$b_{%d,%d}$", t, i)),
+    hjust=0, vjust=1,
     data=selection3)+
   geom_abline(aes(
     slope=k,
@@ -44,11 +45,13 @@ gg <- ggplot()+
     data=it3)+
   theme_bw()+
   theme(panel.margin=grid::unit(0, "lines"))+
-  facet_grid(. ~ iteration)
+  facet_grid(. ~ iteration)+
+  xlab("Penalty $\\lambda$")+
+  ylab("Cost $f_t(\\lambda)$")
 print(gg)
 
 ##TODO geom_text
-tikz("figure-three-iterations.tex", 5, 2.5)
+tikz("figure-three-iterations.tex", 5.5, 2.5)
 print(gg)
 dev.off()
 

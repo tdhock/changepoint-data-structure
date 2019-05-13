@@ -1,5 +1,7 @@
-figures.pdf: figures.tex figure-loss-small-evals.tex
+figures.pdf: figures.tex figure-loss-small-evals.tex figure-three-iterations.tex
 	pdflatex figures
+figure-three-iterations.tex: figure-three-iterations.R
+	R --vanilla < $<
 figure-fullpath-grid-timing.png: figure-fullpath-grid-timing.R fullpath.grid.timing.rds
 	R --vanilla < $<
 figure-fullpath-db-timing.png: figure-fullpath-db-timing.R fullpath.db.timing.rds
