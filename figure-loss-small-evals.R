@@ -1,11 +1,4 @@
-library(penaltyLearning)
-library(data.table)
-library(ggplot2)
-library(tikzDevice)
-options(
-  tikzDocumentDeclaration=paste(
-    "\\documentclass[12pt]{article}"),
-  tikzMetricsDictionary="tikzMetrics")
+source("packages.R")
 
 loss.small.evals <- readRDS("loss.small.evals.rds")
 
@@ -33,9 +26,20 @@ ggplot()+
 
 limit.dt.list <- list()
 for(N in c(10, seq(100, 500, by=100))){
-  dt <- data.table(loss.seq=(N-1):0, complexity=0:(N-1)) #10-t
-  dt[, loss := ifelse(complexity %in% c(0, N-1), loss.seq, loss.seq+0.5)]
-  for(loss.col in c("loss.seq", "loss")){
+  t <- 1:N
+  dt <- data.table(
+    worst.case.loss=N-t,
+    best.case.loss=N-sqrt(t),
+    complexity=t)
+## > dt
+##    worst.case.loss best.case.loss complexity
+## 1:               4           4.00          1
+## 2:               3           3.59          2
+## 3:               2           3.27          3
+## 4:               1           3.00          4
+## 5:               0           2.76          5
+## > 
+  for(loss.col in c("best.case.loss", "worst.case.loss")){
     result <- .C(
       "modelSelectionFwd_interface",
       loss=as.double(dt[[loss.col]]),
@@ -55,12 +59,6 @@ for(N in c(10, seq(100, 500, by=100))){
   }
 }
 limit.dt <- do.call(rbind, limit.dt.list)
-
-## the synthetic data are L_t = N-t for the lower bound, L_t =
-## N-t+I[1<t<N]/2
-t <- 1:10
-10-t
-10-t+ifelse(t %in% c(1,10), 0, 0.5)
 
 both.cols <- c("models.in", "total.evals")
 d <- function(data.type, dt){
@@ -90,12 +88,12 @@ data sequences", sum(both.dt$data.type=="neuroblastoma")),
 data.type="neuroblastoma"),
 data.table(
   x=200, y=150, hjust=0, vjust=1,
-  label=paste0("$L_t = N-t$, synthetic data achieving lower bound"),
+  label=paste0("$L_t = N-\\sqrt(t)$, synthetic data achieving lower bound"),
   data.type="synthetic"),
 data.table(
   x=-10, y=800, hjust=0, vjust=1,
   label=paste0(
-    "$L_t = N-t+I[1<t<N]/2$,
+    "$L_t = N-t$,
 synthetic data achieving
 upper bound"),
 data.type="synthetic"))
@@ -143,7 +141,7 @@ data=bound.dt)+
 (time complexity, linear scale)",
     breaks=c(range(both.dt$total.evals), break.vec))+
   guides(color="none")
-##print(gg)
+print(gg)
 tikz("figure-loss-small-evals.tex", 5.5, 2.1)
 print(gg)
 dev.off()
