@@ -65,11 +65,11 @@ options(repos=c(
           "http://r-forge.r-project.org",
           "http://cloud.r-project.org"))
 works_with_R(
-  "3.5.2",
+  "3.6.0",
   curl="3.3",
   "tdhock/penaltyLearning@f2dec6ff8564389c779455f4e1ff6bcb2f956a05",
   microbenchmark="1.4.6",
-  tikzDevice="1.0",
+  tikzDevice="0.12",
   data.table="1.12.2",
   ggplot2="3.1.1")
 options(
