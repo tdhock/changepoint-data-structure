@@ -26,7 +26,7 @@ selection3 <- it3[, {
   data.table(df, i=nrow(df):1)
 }, by=list(iteration)]
 
-pen.vec <- seq(0, 4.8, by=0.1)
+pen.vec <- seq(0, 5.5, by=0.1)
 min3 <- it3[, {
   selected <- sapply(pen.vec, function(pen){
     k[which.min(loss+k*pen)]
@@ -42,14 +42,23 @@ c("#F7FCF5",#lite green
   "#238B45", "#006D2C",
   "#00441B")#dark green
 removed.dt <- selection3[t==2 & i==1, .(min.lambda, k, loss)]
+kx <- 5.5
 arrow.dt <- rbind(
-  data.table(x=4.7, y=5.5, xend=4, yend=10, iteration="$t=2$", k=1, i=1, t=2),
-  data.table(x=4.7, y=3.5, xend=2.5, yend=8, iteration="$t=2$", k=2, i=2, t=2),
-  data.table(x=4.7, y=6, xend=4.5, yend=10.8, iteration="$t=3, I_t=1$", k=1, i=1, t=3),
-  data.table(x=4.7, y=3.5, xend=3, yend=7, iteration="$t=3, I_t=1$", k=3, i=2, t=3),
-  data.table(x=4.7, y=6, xend=4.3, yend=10.5, iteration="$t=3, I_t=2$", k=1, i=1, t=3),
-  data.table(x=4.7, y=4, xend=2.9, yend=8.6, iteration="$t=3, I_t=2$", k=2, i=2, t=3),
-  data.table(x=4.7, y=2, xend=1.5, yend=5, iteration="$t=3, I_t=2$", k=3, i=3, t=3))
+  data.table(x=kx, y=6, xend=4, yend=10, iteration="$t=2$", k=1, i=1, t=2),
+  data.table(x=kx, y=4, xend=2.5, yend=8, iteration="$t=2$", k=2, i=2, t=2),
+  data.table(x=kx, y=6, xend=4.5, yend=10.8, iteration="$t=3, I_t=1$", k=1, i=1, t=3),
+  data.table(x=kx, y=4, xend=3, yend=7, iteration="$t=3, I_t=1$", k=3, i=2, t=3),
+  data.table(x=kx, y=6, xend=4.3, yend=10.5, iteration="$t=3, I_t=2$", k=1, i=1, t=3),
+  data.table(x=kx, y=4, xend=2.9, yend=8.6, iteration="$t=3, I_t=2$", k=2, i=2, t=3),
+  data.table(x=kx, y=2, xend=1.5, yend=5, iteration="$t=3, I_t=2$", k=3, i=3, t=3))
+b21 <- selection3[t==2]$max.lambda[1]
+try.dt <- it3[t==3, {
+  penalty <- loss[2]-loss[3]
+  data.table(
+    penalty,
+    sign=ifelse(b21 < penalty, "<", ">"),
+    cost=penalty*2+loss[2])
+}, by=iteration]
 gg <- ggplot()+
   geom_line(aes(
     penalty, cost),
@@ -98,6 +107,23 @@ gg <- ggplot()+
     color=removed.color,
     shape=1,
     data=removed.dt)+
+  geom_point(aes(
+    x=penalty,
+    y=cost),
+    color=removed.color,
+    shape=1,
+    data=try.dt)+
+  geom_text(aes(
+    x=ifelse(sign==">", penalty, penalty-0.5),
+    y=cost,
+    vjust=ifelse(sign==">", -0.5, 0.5),
+    label=sprintf(
+      ##"$b_{2,1} %s c(3, 2)$", sign
+      "$c(3, 2)$"
+    )),
+    color=removed.color,
+    hjust=1,
+    data=try.dt)+
   geom_text(aes(
     min.lambda-0.3, loss+k*min.lambda+0.1, label=label),
     color=removed.color,
@@ -106,7 +132,7 @@ gg <- ggplot()+
     data=data.table(
       removed.dt,
       iteration=c("$t=2$", "$t=3, I_t=1$", "$t=3, I_t=2$"),
-      label=c("$c(2, 1)$", "removed", "kept")))+
+      label=c("$c(2, 1)$", "$b_{2,1}$ removed", "$b_{2,1}$ kept")))+
   geom_text(aes(
     penalty, cost, label=sprintf(
       "$f_%d$", k)),
@@ -137,14 +163,14 @@ gg <- ggplot()+
     data=it3)+
   coord_cartesian(
     ylim=c(-1.5, max(min3$cost)),
-    xlim=c(-3, 8),
+    xlim=c(-4, 10),
     expand=FALSE)+
   scale_x_continuous(
     "Penalty $\\lambda$",
     breaks=seq(0, 6, by=2))+
   scale_y_continuous(
     "Cost $f_k(\\lambda) = L_k + \\lambda k$",
-    breaks=seq(0, 10, by=2))
+    breaks=seq(0, 12, by=2))
 print(gg)
 tikz("figure-three-iterations.tex", 5.5, 2)
 print(gg)
