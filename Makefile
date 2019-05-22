@@ -1,5 +1,7 @@
-figures.pdf: figures.tex figure-loss-small-evals.tex figure-three-iterations.tex
+figures.pdf: figures.tex figure-loss-small-evals.tex figure-three-iterations.tex figure-chipseq-cv.png
 	pdflatex figures
+figure-chipseq-cv.png: figure-chipseq-cv.R
+	R --vanilla < $<
 figure-three-iterations.tex: figure-three-iterations.R
 	R --vanilla < $<
 figure-fullpath-grid-timing.png: figure-fullpath-grid-timing.R fullpath.grid.timing.rds
