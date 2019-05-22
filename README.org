@@ -33,6 +33,12 @@ time.
 
 Parallel full path algo. 
 
+** 22 May 2019
+
+[[file:figure-chipseq-cv.R]] makes
+
+[[file:figure-chipseq-cv-diff.png]]
+
 ** 10 May 2019
 [[file:figure-fullpath-grid-timing.R]] makes
 [[file:figure-fullpath-grid-timing.png]]

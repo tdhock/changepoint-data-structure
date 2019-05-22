@@ -99,7 +99,7 @@ Approx. grid search - Exact linear algo
 (mean +/- SD over 4 CV folds)")+
   scale_x_log10(
     "Grid points used in approximate computation of model selection function (log scale)")
-png("figure-chipseq-cv-diff.png", 8.5, 2.6, units="in", res=300)
+png("figure-chipseq-cv-diff.png", 10, 2.8, units="in", res=300)
 print(gg.diff)
 dev.off()
 
