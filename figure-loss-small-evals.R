@@ -38,7 +38,7 @@ for(N in c(10, seq(100, 500, by=100))){
 ## 3:               2           3.27          3
 ## 4:               1           3.00          4
 ## 5:               0           2.76          5
-## > 
+## >
   for(loss.col in c("best.case.loss", "worst.case.loss")){
     result <- .C(
       "modelSelectionFwd_interface",
@@ -88,7 +88,7 @@ data sequences", sum(both.dt$data.type=="neuroblastoma")),
 data.type="neuroblastoma"),
 data.table(
   x=200, y=150, hjust=0, vjust=1,
-  label=paste0("$L_t = N-\\sqrt(t)$, synthetic data achieving lower bound"),
+  label=paste0("$L_t = N-\\sqrt{t}$, synthetic data achieving lower bound"),
   data.type="synthetic"),
 data.table(
   x=-10, y=800, hjust=0, vjust=1,
