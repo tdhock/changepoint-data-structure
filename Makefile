@@ -1,5 +1,7 @@
 figures.pdf: figures.tex figure-loss-small-evals.tex figure-three-iterations.tex figure-chipseq-cv.png
 	pdflatex figures
+binseg.bug.valgrind.txt: binseg.bug.R
+	R --vanilla -d valgrind < binseg.bug.R
 figure-chipseq-cv.png: figure-chipseq-cv.R
 	R --vanilla < $<
 figure-three-iterations.tex: figure-three-iterations.R
