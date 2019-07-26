@@ -3,7 +3,9 @@
 Efficient data structure for computing Optimal Partitioning models.
 
 Basic structure is a binary search tree, probably best to implement on
-top of a C++ STL map.
+top of a C++ STL map. 
+
+See for related work http://wcipeg.com/wiki/Convex_hull_trick#Fully_dynamic_variant
 
 Assume data set of size d.
 
