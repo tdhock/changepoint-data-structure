@@ -35,6 +35,9 @@ time.
 
 Parallel full path algo. 
 
+** 11 Sep 2019
+- [[file:binseg.timing.R]] simulations.
+- [[file:fullpath.db.binseg.R]] loss values from real data.
 ** 22 May 2019
 
 [[file:figure-chipseq-cv.R]] makes

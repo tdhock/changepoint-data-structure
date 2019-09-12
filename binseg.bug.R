@@ -1,6 +1,3 @@
-data("neuroblastoma", package="neuroblastoma")
-one <- subset(neuroblastoma$profiles, profile.id=="583" & chromosome=="3")
-for(i in 1:1){
-  print(i)
-  fit <- fpop::multiBinSeg(one$logratio, nrow(one))
-}
+N <- 10L
+x <- rnorm(N)
+fpop::multiBinSeg(x, 9L)
