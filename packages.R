@@ -67,11 +67,13 @@ options(repos=c(
 works_with_R(
   "3.6.0",
   curl="3.3",
-  "tdhock/penaltyLearning@f2dec6ff8564389c779455f4e1ff6bcb2f956a05",
+  "tdhock/penaltyLearning@f729e1d779da39f30fc0824ea6b93c7b5df63f6c",
+  "tdhock/binseg@d79b6022a33a7e94cd153a52c5a0a6675bbe76a7",
   microbenchmark="1.4.6",
   tikzDevice="0.12",
   data.table="1.12.2",
   ggplot2="3.1.1")
+library(penaltyLearning)
 options(
   tikzDocumentDeclaration=paste(
     "\\documentclass[12pt]{article}"),

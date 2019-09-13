@@ -1,11 +1,21 @@
 library(data.table)
 library(penaltyLearning)
 library(microbenchmark)
+
+if(!file.exists("signal.list.annotation.sets.RData")){
+  download.file("http://members.cbio.mines-paristech.fr/~thocking/neuroblastoma/signal.list.annotation.sets.RData", "signal.list.annotation.sets.RData")
+}
+(objs <- load("signal.list.annotation.sets.RData"))
+size.vec <- sapply(signal.list, nrow)
+
+big.id <- names(sort(-size.vec)[1])
+one.signal <- data.table(signal.list[[big.id]])
+  
 timing.dt.list <- list()
 for(N in 10^seq(1, 5, by=0.5)){
   N.chr <- paste(N)
   if(! N.chr %in% names(timing.dt.list)){
-    x <- rnorm(N)
+    x <- one.signal$logratio[1:N]
     m <- mean(x)
     L1 <- sum((x-m)^2)
     binseg <- function(){
