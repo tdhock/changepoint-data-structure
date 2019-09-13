@@ -65,14 +65,16 @@ options(repos=c(
           "http://r-forge.r-project.org",
           "http://cloud.r-project.org"))
 works_with_R(
-  "3.6.0",
+  "3.6.1",
   curl="3.3",
+  data.table="1.12.2",
+  geometry="0.4.4",
   "tdhock/penaltyLearning@f729e1d779da39f30fc0824ea6b93c7b5df63f6c",
   "tdhock/binseg@d79b6022a33a7e94cd153a52c5a0a6675bbe76a7",
   microbenchmark="1.4.6",
+  directlabels="2018.5.22",
   tikzDevice="0.12",
-  data.table="1.12.2",
-  ggplot2="3.1.1")
+  ggplot2="3.2.1")
 library(penaltyLearning)
 options(
   tikzDocumentDeclaration=paste(

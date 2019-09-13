@@ -1,4 +1,10 @@
 source("packages.R")
+if(!file.exists("db-problems.tsv")){
+  download.file(
+    "https://rcdata.nau.edu/genomic-ml/fullpath/db-problems.tsv",
+    "db-problems.tsv")
+}
+db.problems <- fread("db-problems.tsv")
 if(!file.exists("db-loss.tsv")){
   download.file(
     "https://rcdata.nau.edu/genomic-ml/fullpath/db-loss.tsv",

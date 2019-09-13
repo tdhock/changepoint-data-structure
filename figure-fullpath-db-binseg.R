@@ -2,8 +2,14 @@ source("packages.R")
 
 timing.dt <- readRDS("fullpath.db.binseg.rds")
 
+timing.dt[, seconds := time /1e9]
+ggplot()+
+  geom_point(aes(
+    N, seconds, color=expr),
+    data=timing.dt)
+
 ##lite        dark
-algo.colors <- c(
+expr.colors <- c(
   binseg.linear="grey50", linear="black",
   binseg.quadratic="#A6CEE3", quadratic="#1F78B4",#blue
   "#B2DF8A", "#33A02C",#green
@@ -11,21 +17,18 @@ algo.colors <- c(
   "#FDBF6F", "#FF7F00",#orange
   binseg="#CAB2D6", "#6A3D9A",#purple
   "#FFFF99", "#B15928")#yellow/brown
-
-timing.dt[, seconds := time /1e9]
-ggplot()+
-  geom_point(aes(
-    N, seconds, color=expr),
-    data=timing.dt)
-
 stats.dt <- timing.dt[, list(
   mean=mean(seconds),
   sd=sd(seconds)
 ), by=.(expr, N)]
-full.names <- c(
-  quadratic="quadratic\nalgo alone",
-  linear="linear\nalgo alone",
-  binseg="binary\nsegmentation")
+old.levs <- levels(stats.dt$expr)
+step.vec <- ifelse(
+  grepl(".", old.levs, fixed=TRUE),
+  "step1+step2",
+  ifelse(old.levs=="binseg", "step1", "step2"))
+(new.levs <- structure(paste0(step.vec, "\n", old.levs), names=old.levs))
+stats.dt[, algo := new.levs[expr] ]
+algo.colors <- structure(expr.colors, names=new.levs[names(expr.colors)])
 ref.dt <- data.table(
   seconds=c(1, 60),
   label=paste(" 1", c("second", "minute")))
@@ -46,10 +49,10 @@ gg <- ggplot()+
     vjust=1.5,
     hjust=0)+
   geom_line(aes(
-    N, mean, color=expr),
+    N, mean, color=algo),
     data=stats.dt)+
   geom_ribbon(aes(
-    N, ymin=mean-sd, ymax=mean+sd, fill=expr),
+    N, ymin=mean-sd, ymax=mean+sd, fill=algo),
     alpha=0.5,
     data=stats.dt)+
   scale_x_log10(
