@@ -58,13 +58,15 @@ gg <- ggplot()+
   scale_x_log10(
     "N = number of data and models (log scale)",
     breaks=stats.dt[, 10^seq(log10(min(N)), log10(max(N)))],
-    limits=c(NA, max(stats.dt$N)*50))+
+    limits=c(NA, max(stats.dt$N)*10))+
   scale_y_log10(
-    "Computation time (seconds, log scale)"
+    "Computation time (seconds, log scale)",
+    limits=c(NA, 1e3),
+    breaks=10^seq(-2, 2)
   )+
   scale_color_manual(values=algo.colors)+
   scale_fill_manual(values=algo.colors)
-dl <- directlabels::direct.label(gg, list(cex=0.8, "last.polygons"))
+dl <- directlabels::direct.label(gg, list(cex=0.6, "last.polygons"))
 png("figure-fullpath-db-binseg.png", 3.6, 3, units="in", res=200)
 print(dl)
 dev.off()
