@@ -155,6 +155,16 @@ gg <- ggplot()+
     breaks=br.vec,
     limits=range(br.vec))+
   theme_bw()+
+  geom_hline(aes(
+    yintercept=seconds),
+    data=ref.dt,
+    color="grey")+
+  geom_text(aes(
+    gfac("10"), seconds, label=label),
+    data=ref.dt,
+    color="grey50",
+    hjust=0,
+    vjust=1.5)+
   scale_color_manual(values=c(
     Exact_linear="black",
     Exact_quadratic="blue",
@@ -177,6 +187,8 @@ gg <- ggplot()+
     vjust=1,
     data=text.dt)+
   guides(color="none")
+print(gg)
+
 png("figure-fullpath-grid-timing.png", 4, 3.5, units="in", res=300)
 print(gg)
 dev.off()
