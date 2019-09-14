@@ -62,7 +62,7 @@ gg <- ggplot()+
   scale_y_log10(
     "Computation time (seconds, log scale)",
     limits=c(NA, 1e4),
-    breaks=10^seq(-2, 2)
+    breaks=10^seq(-5, 2)
   )+
   scale_color_manual(values=algo.colors)+
   scale_fill_manual(values=algo.colors)
