@@ -189,6 +189,6 @@ gg <- ggplot()+
   guides(color="none")
 print(gg)
 
-png("figure-fullpath-grid-timing.png", 4, 3.5, units="in", res=300)
+png("figure-fullpath-grid-timing.png", 4, 3.7, units="in", res=300)
 print(gg)
 dev.off()
