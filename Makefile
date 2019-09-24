@@ -1,5 +1,9 @@
-figures.pdf: figures.tex figure-loss-small-evals.tex figure-three-iterations.tex figure-chipseq-cv.png
+figures.pdf: figures.tex figure-loss-small-evals.tex figure-three-iterations.tex figure-chipseq-cv.png figure-binseg-quadratic-rigaill.tex
 	pdflatex figures
+figure-binseg-quadratic-rigaill.tex: figure-binseg-quadratic-rigaill.R binseg.quadratic.rigaill.rds
+	R --vanilla < $<
+binseg.quadratic.rigaill.rds: binseg.quadratic.rigaill.R
+	R --vanilla < $<
 binseg.bug.valgrind.txt: binseg.bug.R
 	R --vanilla -d valgrind < binseg.bug.R
 figure-chipseq-cv.png: figure-chipseq-cv.R

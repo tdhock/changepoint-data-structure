@@ -69,7 +69,7 @@ works_with_R(
   curl="3.3",
   data.table="1.12.2",
   geometry="0.4.4",
-  "tdhock/penaltyLearning@f729e1d779da39f30fc0824ea6b93c7b5df63f6c",
+  "tdhock/penaltyLearning@f7956ef0a4792473be6737a3d48be97449139048",
   "tdhock/binseg@d79b6022a33a7e94cd153a52c5a0a6675bbe76a7",
   microbenchmark="1.4.6",
   directlabels="2018.5.22",
