@@ -113,6 +113,7 @@ for(N in new.N){
           n.input=as.integer(n.input),
           models=integer(n.input),
           breaks=double(n.input),
+          iterations=integer(n.input),
           PACKAGE="penaltyLearning")
       },
       Rigaill={
@@ -123,57 +124,62 @@ for(N in new.N){
           n.input=as.integer(n.input),
           models=integer(n.input),
           breaks=double(n.input),
+          iterations=integer(n.input),
           PACKAGE="penaltyLearning")
       },
-      binseg.quadIn={
+      binseg.quadAlways={
         loss.vec <- binseg.loss()
         .C(
-          "modelSelectionQuadraticInput_interface",
+          "modelSelectionQuadraticAlways_interface",
           loss=as.double(loss.vec),
           complexity=as.double(complexity.vec),
           n.input=as.integer(n.input),
           models=integer(n.input),
           breaks=double(n.input),
+          iterations=integer(n.input),
           PACKAGE="penaltyLearning")
       },
-      quadIn={
-        quadIn <- .C(
-          "modelSelectionQuadraticInput_interface",
+      quadAlways={
+        quadAlways <- .C(
+          "modelSelectionQuadraticAlways_interface",
           loss=as.double(loss.vec),
           complexity=as.double(complexity.vec),
           n.input=as.integer(n.input),
           models=integer(n.input),
           breaks=double(n.input),
+          iterations=integer(n.input),
           PACKAGE="penaltyLearning")
       },
-      binseg.quadOut={
+      binseg.quadSometimes={
         loss.vec <- binseg.loss()
         .C(
-          "modelSelectionQuadraticOutput_interface",
+          "modelSelectionQuadraticSometimes_interface",
           loss=as.double(loss.vec),
           complexity=as.double(complexity.vec),
           n.input=as.integer(n.input),
           models=integer(n.input),
           breaks=double(n.input),
+          iterations=integer(n.input),
           PACKAGE="penaltyLearning")
       },
-      quadOut={
-        quadOut <- .C(
-          "modelSelectionQuadraticOutput_interface",
+      quadSometimes={
+        quadSometimes <- .C(
+          "modelSelectionQuadraticSometimes_interface",
           loss=as.double(loss.vec),
           complexity=as.double(complexity.vec),
           n.input=as.integer(n.input),
           models=integer(n.input),
           breaks=double(n.input),
+          iterations=integer(n.input),
           PACKAGE="penaltyLearning")
       },
       times=5)
-    stopifnot(quadIn$n.input == quadOut$n.input)
-    stopifnot(linear$n.input == quadIn$n.input)
-    rbind(linear$models, quadIn$models)
+    stopifnot(quadAlways$n.input == quadSometimes$n.input)
+    stopifnot(linear$n.input == quadAlways$n.input)
+    rbind(linear$models, quadAlways$models)
     stopifnot(all.equal(
-      with(quadIn, models[1:(n.input+1)]),
-      with(quadOut, models[1:(n.input+1)])))
+      with(quadAlways, models[1:(n.input+1)]),
+      with(quadSometimes, models[1:(n.input+1)])))
     timing.dt.list[[paste(sim.fun.i, N)]] <- data.table(
       N, n.input, sim.fun.row, micro.df)
   }
