@@ -12,8 +12,8 @@ sim.fun.dt <- unique(timing.dt[, .(
 ##lite        dark
 expr.colors <- c(
   binseg.linear="grey50", linear="black",
-  binseg.quadIn="#A6CEE3", quadIn="#1F78B4",#blue
-  binseg.quadOut="#B2DF8A", quadOut="#33A02C",#green
+  binseg.quadAlways="#A6CEE3", quadAlways="#1F78B4",#blue
+  binseg.quadSometimes="#B2DF8A", quadSometimes="#33A02C",#green
   binseg.Rigaill="#FB9A99", Rigaill="#E31A1C",#red
   "#FDBF6F", "#FF7F00",#orange
   binseg="#CAB2D6", "#6A3D9A",#purple
