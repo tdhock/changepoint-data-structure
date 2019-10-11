@@ -67,6 +67,8 @@ gg <- ggplot()+
   scale_color_manual(values=algo.colors)+
   scale_fill_manual(values=algo.colors)
 dl <- directlabels::direct.label(gg, list(cex=0.8, "last.polygons"))
+print(dl)
+
 png("figure-fullpath-db-binseg.png", 3.6, 3, units="in", res=300)
 print(dl)
 dev.off()
