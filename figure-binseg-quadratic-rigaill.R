@@ -116,8 +116,6 @@ gg <- ggplot()+
     "Computation time (seconds, log scale)")
 dl <- directlabels::direct.label(gg, list(cex=0.7, "last.polygons"))
 print(dl)
-
-
 tikz("figure-binseg-quadratic-rigaill.tex", 6, 3)
 print(dl)
 dev.off()
