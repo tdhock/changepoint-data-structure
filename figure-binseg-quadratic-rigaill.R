@@ -110,7 +110,7 @@ gg <- ggplot()+
     data=some.stats)+
   scale_x_log10(
     "N = number of simulated data (log scale)",
-    limits=c(NA, max(stats.dt$N)*10))+
+    limits=c(NA, 5e5))+
   scale_y_log10(
     "Computation time (seconds, log scale)")
 dl <- directlabels::direct.label(gg, list(cex=0.7, "last.polygons"))
