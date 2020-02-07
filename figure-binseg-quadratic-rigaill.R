@@ -97,9 +97,10 @@ gg <- ggplot()+
   scale_fill_manual(values=new.expr.colors)+
   facet_grid(steps ~ BinSeg + n.selected, labeller=label_both)+
   geom_text(aes(
-    min(stats.dt$N), max(stats.dt$mean), label=latex),
+    min(stats.dt$N), max(stats.dt$mean)*10, label=latex),
     hjust=0,
     vjust=1,
+    size=3,
     data=sim.fun.dt)+
   geom_line(aes(
     N, mean, color=new.expr),
@@ -110,12 +111,16 @@ gg <- ggplot()+
     data=some.stats)+
   scale_x_log10(
     "N = number of simulated data (log scale)",
-    limits=c(NA, 1e5),
+    limits=c(NA, 2e5),
     breaks=10^seq(2, 4))+
   scale_y_log10(
     "Computation time (seconds, log scale)")
 dl <- directlabels::direct.label(gg, list(cex=0.7, "last.polygons"))
 print(dl)
+tikz("figure-binseg-quadratic-rigaill-alone.tex", 6, 3, standAlone=TRUE)
+print(dl)
+dev.off()
+system("pdflatex figure-binseg-quadratic-rigaill-alone")
 tikz("figure-binseg-quadratic-rigaill.tex", 6, 3)
 print(dl)
 dev.off()
