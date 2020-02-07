@@ -79,7 +79,44 @@ gg <- ggplot()+
 dl <- directlabels::direct.label(gg, "last.polygons")
 print(dl)
 
+new.expr.colors <- c(
+  "binseg\nlinear"="grey50", linear="black",
+  "binseg\nquadratic"="#A6CEE3", quadratic="#1F78B4",#blue
+  "#B2DF8A", "#33A02C",#green
+  "#FB9A99", "#E31A1C",#red
+  "#FDBF6F", "#FF7F00",#orange
+  binseg="#CAB2D6", "#6A3D9A",#purple
+  "#FFFF99", "#B15928")#yellow/brown
+stats.dt[, steps := ifelse(grepl("binseg", expr), "1-2", "2")]
+some.stats <- stats.dt[!grepl("Sometimes|Always", expr)]
+some.stats[, new.expr := sub("[.]", "\n", sub("Rigaill", "quadratic", expr))]
+gg <- ggplot()+
+  theme_bw()+
+  theme(panel.spacing=grid::unit(0, "lines"))+
+  scale_color_manual(values=new.expr.colors)+
+  scale_fill_manual(values=new.expr.colors)+
+  facet_grid(steps ~ BinSeg + n.selected, labeller=label_both)+
+  geom_text(aes(
+    min(stats.dt$N), max(stats.dt$mean), label=latex),
+    hjust=0,
+    vjust=1,
+    data=sim.fun.dt)+
+  geom_line(aes(
+    N, mean, color=new.expr),
+    data=some.stats)+
+  geom_ribbon(aes(
+    N, ymin=mean-sd, ymax=mean+sd, fill=new.expr),
+    alpha=0.5,
+    data=some.stats)+
+  scale_x_log10(
+    "N = number of simulated data (log scale)",
+    limits=c(NA, max(stats.dt$N)*10))+
+  scale_y_log10(
+    "Computation time (seconds, log scale)")
+dl <- directlabels::direct.label(gg, list(cex=0.7, "last.polygons"))
+print(dl)
 
-tikz("figure-binseg-quadratic-rigaill.tex", 7, 3)
+
+tikz("figure-binseg-quadratic-rigaill.tex", 6, 3)
 print(dl)
 dev.off()

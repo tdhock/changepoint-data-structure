@@ -60,22 +60,19 @@ works_with_R <- function(Rvers,...){
 }
 options(namedCapture.engine="PCRE")
 options(datatable.fread.input.cmd.message=FALSE)
-options(repos=c(
-          "http://www.bioconductor.org/packages/release/bioc",
-          "http://r-forge.r-project.org",
-          "http://cloud.r-project.org"))
+options(repos="http://cloud.r-project.org")
 works_with_R(
   "3.6.1",
   curl="3.3",
   data.table="1.12.2",
   geometry="0.4.4",
+  ggplot2="3.2.1",
   namedCapture="2019.7.30",
   "tdhock/penaltyLearning@eaeadbf7f02d2636377c2eeb290fd59c2085b5d5",
   "tdhock/binseg@d79b6022a33a7e94cd153a52c5a0a6675bbe76a7",
   microbenchmark="1.4.6",
   directlabels="2018.5.22",
-  tikzDevice="0.12",
-  ggplot2="3.2.1")
+  tikzDevice="0.12")
 ##install.packages("~/R/penaltyLearning", repo=NULL)
 library(penaltyLearning)
 options(
