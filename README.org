@@ -1,3 +1,15 @@
+** Source code for figures in paper
+
+For all figures see [[file:Makefile]] to understand how to make the
+dependent data files.
+
+- [[file:figure-three-iterations.R][Figure 1]]: demonstration of iterations 2 and 3 of proposed algorithm.
+- [[file:figure-loss-small-evals.R][Figure 2]]: empirical number of iterations.
+- [[file:figure-fullpath-db-binseg.R][Figure 3 left]]: empirical timings for linear/quadratic algorithms.
+- [[file:figure-fullpath-grid-timing.R][Figure 3 right]]: empirical timings for linear/quadratic/grid search.
+- [[file:figure-chipseq-cv.R][Figure 4]]: accuracy in 4-fold cross-validation experiments.
+- [[file:figure-binseg-quadratic-rigaill.R][Supplementary Figure]]: empirical timings in different simulations.
+
 ** TODOs
 
 Efficient data structure for computing Optimal Partitioning models.
