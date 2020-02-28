@@ -111,7 +111,7 @@ gg <- ggplot()+
     alpha=0.5,
     data=some.stats)+
   scale_x_log10(
-    "N = number of simulated data (log scale)",
+    "$N$ = number of simulated data (log scale)",
     limits=c(NA, 2e5),
     breaks=10^seq(2, 4))+
   scale_y_log10(
