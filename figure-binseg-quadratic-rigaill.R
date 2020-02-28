@@ -1,6 +1,7 @@
 source("packages.R")
 
 timing.dt <- readRDS("binseg.quadratic.rigaill.rds")
+timing.dt[, latex := sub("sjn", "sin", sub("x", "z", gsub("i", "j", latex)))]
 timing.dt[, seconds := time /1e9]
 timing.dt[, BinSeg := ifelse(binseg=="fast", "log-linear", "quadratic")]
 stats.dt <- timing.dt[, list(
