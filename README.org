@@ -47,6 +47,10 @@ time.
 
 Parallel full path algo. 
 
+** 27 Mar 2020
+[[file:figure-three-iterations-new.R]] makes
+[[file:figure-three-iterations-new.tex]] TODO highlight sure/unsure
+regions and stuff that is stored by algo.
 ** 11 Sep 2019
 - [[file:binseg.timing.R]] simulations.
 - [[file:fullpath.db.binseg.R]] binseg on loss values from simulated and real data.
