@@ -47,6 +47,38 @@ time.
 
 Parallel full path algo. 
 
+** 21 Apr 2020
+
+[[http://adv-r.had.co.nz/Rcpp.html][Advanced R chapter on Rcpp]] shows the following example of an exported
+Rcpp function that returns a C++ std::map,
+
+#+BEGIN_SRC c++
+#include <Rcpp.h>
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+std::map<double, int> tableC(NumericVector x) {
+  std::map<double, int> counts;
+
+  int n = x.size();
+  for (int i = 0; i < n; i++) {
+    counts[x[i]]++;
+  }
+
+  return counts;
+}
+#+END_SRC
+
+but what is returned to R in this case? 
+
+[[https://cloud.r-project.org/web/packages/Rcpp/vignettes/Rcpp-modules.pdf][Rcpp modules vignette]] explains how to expose a C++ class/methods to R
+(implemented internally using an external pointer to an instance of
+the class). Get started via 
+
+#+BEGIN_SRC R
+Rcpp::Rcpp.package.skeleton("testmod", module=TRUE)
+#+END_SRC
+
 ** 27 Mar 2020
 [[file:figure-three-iterations-new.R]] makes
 [[file:figure-three-iterations-new.tex]] TODO highlight sure/unsure

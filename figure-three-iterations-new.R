@@ -35,7 +35,7 @@ selection3 <- it3[, {
   data.table(df, i=nrow(df):1)
 }, by=list(iteration)]
 
-max.pen <- 10
+max.pen <- 13
 pen.vec <- seq(0, max.pen, by=0.1)
 min3 <- it3[, {
   selected <- sapply(pen.vec, function(pen){
@@ -46,46 +46,18 @@ min3 <- it3[, {
 min3[, cost := loss+k*penalty]
 
 loss.color <- "deepskyblue"
-sure.color <- "grey50"
+sure.color <- "red"
 c("#F7FCF5",#lite green
   "#E5F5E0", "#C7E9C0", "#A1D99B", "#74C476", "#41AB5D",
   "#238B45", "#006D2C",
   "#00441B")#dark green
 removed.dt <- selection3[t==2 & i==1, .(min.lambda, k, loss)]
-kx <- 5.5
-arrow.dt <- rbind(
-  data.table(x=kx, y=6, xend=4, yend=10, iteration="$t=2$", k=1, i=1, t=2),
-  data.table(x=kx, y=4, xend=2.5, yend=8, iteration="$t=2$", k=2, i=2, t=2),
-  data.table(x=kx, y=6, xend=4.5, yend=10.8, iteration="$t=3, I_t=1$", k=1, i=1, t=3),
-  data.table(x=kx, y=4, xend=3, yend=7, iteration="$t=3, I_t=1$", k=3, i=2, t=3),
-  data.table(x=kx, y=6, xend=4.3, yend=10.5, iteration="$t=3, I_t=2$", k=1, i=1, t=3),
-  data.table(x=kx, y=4, xend=2.9, yend=8.6, iteration="$t=3, I_t=2$", k=2, i=2, t=3),
-  data.table(x=kx, y=2, xend=1.5, yend=5, iteration="$t=3, I_t=2$", k=3, i=3, t=3))
-b21 <- selection3[t==2]$max.lambda[1]
-try.dt <- it3[t==3, {
-  penalty <- loss[2]-loss[3]
-  data.table(
-    penalty,
-    sign=ifelse(b21 < penalty, "<", ">"),
-    cost=penalty*2+loss[2])
-}, by=iteration]
 gg <- ggplot()+
-  ## geom_line(aes(
-  ##   penalty, cost),
-  ##   color="grey",
-  ##   size=3,
-  ##   data=min3)+
-  ## geom_segment(aes(
-  ##   x, y, xend=xend, yend=yend),
-  ##   arrow=grid::arrow(length=grid::unit(0.05, "in"), type="closed"),
-  ##   color="grey",
-  ##   data=arrow.dt)+
-  geom_text(aes(
-    x=min.lambda+0.2,
-    y=loss+k*min.lambda,
-    label=sprintf("$b_{%d,%d}=%.1f$", t, i, min.lambda)),
-    hjust=0, vjust=1,
-    data=selection3)+
+  geom_point(aes(
+    penalty, loss+penalty*k),
+    color=sure.color,
+    size=1.5,
+    data=inserts)+
   geom_abline(aes(
     slope=k,
     intercept=loss),
@@ -94,82 +66,20 @@ gg <- ggplot()+
     xmin=-Inf, xmax=0,
     ymin=-Inf, ymax=Inf),
     fill="white",
-    alpha=0.8,
     data=it3[k==1])+
-  ## geom_vline(aes(
-  ##   xintercept=min.lambda),
-  ##   color="grey",
-  ##   data=selection3)+
-  ## geom_text(aes(
-  ##   x, y, label=sprintf(
-  ##     "$K_{%d,%d}=%d$",
-  ##     t, i, k)),
-  ##   hjust=0,
-  ##   color="grey50",
-  ##   data=arrow.dt)+
   geom_point(aes(
     x=min.lambda,
     y=loss+k*min.lambda),
     data=selection3)+
-  ## geom_point(aes(
-  ##   x=min.lambda,
-  ##   y=loss+k*min.lambda),
-  ##   color=removed.color,
-  ##   shape=1,
-  ##   data=removed.dt)+
-  ## geom_point(aes(
-  ##   x=penalty,
-  ##   y=cost),
-  ##   color=removed.color,
-  ##   shape=1,
-  ##   data=try.dt)+
-  ## geom_text(aes(
-  ##   x=ifelse(sign==">", penalty, penalty-0.5),
-  ##   y=cost,
-  ##   vjust=ifelse(sign==">", -0.5, 0.5),
-  ##   label=sprintf(
-  ##     ##"$b_{2,1} %s c(3, 2)$", sign
-  ##     "$c(3, 2)$"
-  ##   )),
-  ##   color=removed.color,
-  ##   hjust=1,
-  ##   data=try.dt)+
-  ## geom_text(aes(
-  ##   min.lambda-0.3, loss+k*min.lambda+0.1, label=label),
-  ##   color=removed.color,
-  ##   hjust=1,
-  ##   vjust=0,
-  ##   data=data.table(
-  ##     removed.dt,
-  ##     iteration=c("$t=2$", "$t=3, I_t=1$", "$t=3, I_t=2$"),
-  ##     label=c("$c(2, 1)$", "$b_{2,1}$ removed", "$b_{2,1}$ kept")))+
-  ## geom_text(aes(
-  ##   penalty, cost, label=sprintf(
-  ##     "$f_%d$", k)),
-  ##   data=rbind(
-  ##     data.table(penalty=0.5, cost=9, k=1, iteration="$t=2$", hjust=1, vjust=0),
-  ##     data.table(penalty=2, cost=4, k=3, iteration="$t=3, I_t=1$", hjust=0, vjust=1),
-  ##     data.table(penalty=1.4, cost=4, k=3, iteration="$t=3, I_t=2$", hjust=0, vjust=1),
-  ##     data.table(penalty=2, cost=6, k=2, iteration="$t=2$", hjust=0, vjust=1)))+
-  ## geom_text(aes(
-  ##   x=Inf, y=Inf, label=sprintf(
-  ##     "$b_{%d,0}=\\infty$", t)),
-  ##   hjust=1,
-  ##   vjust=1,
-  ##   data=it3[k==1])+
   theme_bw()+
-  geom_point(aes(
-    penalty, loss+penalty*k),
-    color=sure.color,
-    size=1.5,
-    data=inserts)+
-  theme(panel.margin=grid::unit(0, "lines"))+
+  theme(panel.spacing=grid::unit(0, "lines"))+
   facet_grid(. ~ iteration)+
   geom_text(aes(
     -0.5, loss, label=sprintf(
     "$L_%d=%.0f$", k, loss)),
     color=loss.color,
     hjust=1,
+    size=3,
     data=it3)+
   geom_point(aes(
     0, loss),
@@ -187,7 +97,7 @@ gg <- ggplot()+
     "Cost $f_k(\\lambda) = L_k + \\lambda k$",
     breaks=seq(0, 12, by=2))
 print(gg)
-tikz("figure-three-iterations-new.tex", 6.5, 2.5, standAlone=TRUE)
+tikz("figure-three-iterations-new.tex", width=6.5, height=2.5, standAlone=TRUE)
 print(gg)
 dev.off()
 system("pdflatex figure-three-iterations-new")
