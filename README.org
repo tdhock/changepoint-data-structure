@@ -50,6 +50,22 @@ time.
 
 Parallel full path algo.
 
+** 14 Apr 2021
+[[file:figure-crops-compare-data.R]] makes
+[[file:figure-crops-compare-data.rds]]
+
+[[file:figure-crops-compare.R]] makes
+
+[[file:figure-crops-compare.png]]
+
+??? these files are old...
+
+[[file:binseg.only.timings.R]]
+
+[[file:tikzTest.R]]
+
+[[file:figure-loss-changepoint.R]]
+
 ** 13 Apr 2021
 
 [[file:figure-regression-simple-data.R]] computes [[file:figure-regression-simple-data.csv]]
