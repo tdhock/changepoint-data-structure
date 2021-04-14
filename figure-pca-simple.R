@@ -21,7 +21,7 @@ gg <- ggplot()+
     xend=max.log.lambda, yend=components),
     data=selection.dt)+
   scale_y_continuous("Model size (principal components)")+
-  scale_x_continuous("Penalty")
+  scale_x_continuous("Log(Penalty)")
 png("figure-pca-simple-size.png", width=3, height=3, units="in", res=200)
 print(gg)
 dev.off()

@@ -38,7 +38,7 @@ gg <- ggplot()+
     min.log.lambda, model.size,
     xend=max.log.lambda, yend=model.size),
     data=model.dt)+
-  scale_x_continuous("Penalty")+
+  scale_x_continuous("Log(Penalty)")+
   scale_y_continuous("Model size (selected features)")
 png('figure-regression-simple-size.png', width=3, height=3, res=200, units="in")
 print(gg)
