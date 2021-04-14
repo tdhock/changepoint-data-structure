@@ -14,6 +14,9 @@ dependent data files.
 
 Efficient data structure for computing Optimal Partitioning models.
 
+[[file:figure-four-models.R]] and [[file:figure-three-iterations-new.R]] have some
+ideas for a figure for this.
+
 Basic structure is a binary search tree, probably best to implement on
 top of a C++ STL map. 
 
@@ -45,7 +48,39 @@ with our algo. 1-we can do parallel eval with OP. 2- only 73% of SN
 models are actually computable via OP. 3-modelSelection code is linear
 time.
 
-Parallel full path algo. 
+Parallel full path algo.
+
+** 13 Apr 2021
+
+[[file:figure-regression-simple-data.R]] computes [[file:figure-regression-simple-data.csv]]
+
+[[file:figure-regression-simple.R]] makes
+
+[[file:figure-regression-simple-loss.png]]
+
+[[file:figure-regression-simple-loss-selected.png]]
+
+[[file:figure-regression-simple-size.png]]
+
+[[file:figure-regression-simple.png]]
+
+[[file:figure-pca-simple-data.R]] computes [[file:figure-pca-simple-data.csv]]
+
+[[file:figure-pca-simple.R]] makes
+
+[[file:figure-pca-simple-loss.png]]
+
+[[file:figure-pca-simple-size.png]]
+
+[[file:figure-pca-simple.png]]
+
+[[file:figure-kmeans-simple-data.R]] makes [[file:figure-kmeans-simple-data.csv]]
+
+[[file:figure-kmeans-simple.R]] makes
+
+[[file:figure-kmeans-simple-loss.png]]
+
+[[file:figure-kmeans-simple-size.png]]
 
 ** 21 Apr 2020
 
@@ -82,7 +117,7 @@ Rcpp::Rcpp.package.skeleton("testmod", module=TRUE)
 ** 27 Mar 2020
 [[file:figure-three-iterations-new.R]] makes
 [[file:figure-three-iterations-new.tex]] TODO highlight sure/unsure
-regions and stuff that is stored by algo.
+regions and stuff that is stored by algo. see also [[file:figure-four-models.R]]
 ** 11 Sep 2019
 - [[file:binseg.timing.R]] simulations.
 - [[file:fullpath.db.binseg.R]] binseg on loss values from simulated and real data.
