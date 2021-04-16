@@ -73,6 +73,7 @@ works_with_R(
   R.utils="1.0",
   microbenchmark="1.4.6",
   directlabels="2018.5.22",
+  future.apply="1.7.0",
   glmnet="4.1.1",
   tikzDevice="0.12")
 ##install.packages("~/R/penaltyLearning", repo=NULL)

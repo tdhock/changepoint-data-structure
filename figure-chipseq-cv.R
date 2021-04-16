@@ -111,17 +111,18 @@ algo.colors <- c(
   "Approx\ngrid"="red",
   "Exact\nlinear"="black")
 exact.dt <- set.stats[algorithm=="Exact\nlinear"]
+exact.dt[, x := 2000]
 gg <- ggplot()+
   geom_point(aes(
-    n.grid, mean, color=algorithm),
-    size=10,
-    shape="-",
+    x, mean, color=algorithm),
+    size=2,
+    shape=21,
     data=exact.dt)+
   geom_segment(aes(
-    n.grid, mean-sd,
-    xend=n.grid, yend=mean+sd,
+    x, mean-sd,
+    xend=x, yend=mean+sd,
     color=algorithm),
-    size=2,
+    size=1,
     data=exact.dt)+
   geom_line(aes(
     n.grid, mean, color=algorithm),
