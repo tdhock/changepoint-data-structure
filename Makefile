@@ -1,5 +1,28 @@
-figures.pdf: figures.tex figure-loss-small-evals.tex figure-three-iterations.tex figure-chipseq-cv.png figure-binseg-quadratic-rigaill.tex
+figures.pdf: figures.tex \
+figure-three-iterations.tex \
+figure-loss-small-evals.tex \
+figure-fullpath-db-binseg.png figure-fullpath-grid-timing.png \
+figure-chipseq-cv.png \
+figure-binseg-quadratic-rigaill.tex \
+figure-kmeans-simple-loss.png figure-pca-simple-loss.png figure-regression-simple-loss.png figure-kmeans-simple-size.png figure-pca-simple-size.png figure-regression-simple-size.png \
+figure-crops-compare.png
 	pdflatex figures
+figure-crops-compare.png: figure-crops-compare.R figure-crops-compare-data.rds
+	R --vanilla < $<
+figure-crops-compare-data.rds: figure-crops-compare-data.R
+	R --vanilla < $<
+figure-kmeans-simple.png: figure-kmeans-simple.R figure-kmeans-simple-data.rds
+	R --vanilla < $<
+figure-kmeans-simple-data.rds: figure-kmeans-simple-data.R
+	R --vanilla < $<
+figure-pca-simple.png: figure-pca-simple.R figure-pca-simple-data.rds
+	R --vanilla < $<
+figure-pca-simple-data.rds: figure-pca-simple-data.R
+	R --vanilla < $<
+figure-regression-simple.png: figure-regression-simple.R figure-regression-simple-data.rds
+	R --vanilla < $<
+figure-regression-simple-data.rds: figure-regression-simple-data.R
+	R --vanilla < $<
 figure-binseg-quadratic-rigaill.tex: figure-binseg-quadratic-rigaill.R binseg.quadratic.rigaill.rds
 	R --vanilla < $<
 binseg.quadratic.rigaill.rds: binseg.quadratic.rigaill.R
