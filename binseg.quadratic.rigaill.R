@@ -87,7 +87,7 @@ for(N in new.N){
       binseg.linear={
         loss.vec <- binseg.loss()
         .C(
-          "modelSelectionLinear_interface",
+          "modelSelectionFwd_interface",
           loss=as.double(loss.vec),
           complexity=as.double(complexity.vec),
           n.input=as.integer(n.input),
@@ -98,7 +98,7 @@ for(N in new.N){
       },
       linear={
         linear <- .C(
-          "modelSelectionLinear_interface",
+          "modelSelectionFwd_interface",
           loss=as.double(loss.vec),
           complexity=as.double(complexity.vec),
           n.input=as.integer(n.input),
@@ -107,82 +107,80 @@ for(N in new.N){
           evals=integer(n.input),
           PACKAGE="penaltyLearning")
       },
-      binseg.Rigaill={
-        loss.vec <- binseg.loss()
-        .C(
-          "modelSelectionRigaill_interface",
-          loss=as.double(loss.vec),
-          complexity=as.double(complexity.vec),
-          n.input=as.integer(n.input),
-          models=integer(n.input),
-          breaks=double(n.input),
-          iterations=integer(n.input),
-          PACKAGE="penaltyLearning")
-      },
-      Rigaill={
-        Rigaill <- .C(
-          "modelSelectionRigaill_interface",
-          loss=as.double(loss.vec),
-          complexity=as.double(complexity.vec),
-          n.input=as.integer(n.input),
-          models=integer(n.input),
-          breaks=double(n.input),
-          iterations=integer(n.input),
-          PACKAGE="penaltyLearning")
-      },
-      binseg.quadAlways={
-        loss.vec <- binseg.loss()
-        .C(
-          "modelSelectionQuadraticAlways_interface",
-          loss=as.double(loss.vec),
-          complexity=as.double(complexity.vec),
-          n.input=as.integer(n.input),
-          models=integer(n.input),
-          breaks=double(n.input),
-          iterations=integer(n.input),
-          PACKAGE="penaltyLearning")
-      },
-      quadAlways={
-        quadAlways <- .C(
-          "modelSelectionQuadraticAlways_interface",
-          loss=as.double(loss.vec),
-          complexity=as.double(complexity.vec),
-          n.input=as.integer(n.input),
-          models=integer(n.input),
-          breaks=double(n.input),
-          iterations=integer(n.input),
-          PACKAGE="penaltyLearning")
-      },
+      ## binseg.Rigaill={
+      ##   loss.vec <- binseg.loss()
+      ##   .C(
+      ##     "modelSelectionRigaill_interface",
+      ##     loss=as.double(loss.vec),
+      ##     complexity=as.double(complexity.vec),
+      ##     n.input=as.integer(n.input),
+      ##     models=integer(n.input),
+      ##     breaks=double(n.input),
+      ##     iterations=integer(n.input),
+      ##     PACKAGE="penaltyLearning")
+      ## },
+      ## Rigaill={
+      ##   Rigaill <- .C(
+      ##     "modelSelectionRigaill_interface",
+      ##     loss=as.double(loss.vec),
+      ##     complexity=as.double(complexity.vec),
+      ##     n.input=as.integer(n.input),
+      ##     models=integer(n.input),
+      ##     breaks=double(n.input),
+      ##     iterations=integer(n.input),
+      ##     PACKAGE="penaltyLearning")
+      ## },
+      ## binseg.quadAlways={
+      ##   loss.vec <- binseg.loss()
+      ##   .C(
+      ##     "modelSelectionQuadraticAlways_interface",
+      ##     loss=as.double(loss.vec),
+      ##     complexity=as.double(complexity.vec),
+      ##     n.input=as.integer(n.input),
+      ##     models=integer(n.input),
+      ##     breaks=double(n.input),
+      ##     iterations=integer(n.input),
+      ##     PACKAGE="penaltyLearning")
+      ## },
+      ## quadAlways={
+      ##   quadAlways <- .C(
+      ##     "modelSelectionQuadraticAlways_interface",
+      ##     loss=as.double(loss.vec),
+      ##     complexity=as.double(complexity.vec),
+      ##     n.input=as.integer(n.input),
+      ##     models=integer(n.input),
+      ##     breaks=double(n.input),
+      ##     iterations=integer(n.input),
+      ##     PACKAGE="penaltyLearning")
+      ## },
       binseg.quadSometimes={
         loss.vec <- binseg.loss()
         .C(
-          "modelSelectionQuadraticSometimes_interface",
+          "modelSelectionQuadratic_interface",
           loss=as.double(loss.vec),
           complexity=as.double(complexity.vec),
           n.input=as.integer(n.input),
           models=integer(n.input),
           breaks=double(n.input),
-          iterations=integer(n.input),
           PACKAGE="penaltyLearning")
       },
       quadSometimes={
         quadSometimes <- .C(
-          "modelSelectionQuadraticSometimes_interface",
+          "modelSelectionQuadratic_interface",
           loss=as.double(loss.vec),
           complexity=as.double(complexity.vec),
           n.input=as.integer(n.input),
           models=integer(n.input),
           breaks=double(n.input),
-          iterations=integer(n.input),
           PACKAGE="penaltyLearning")
       },
       times=5)
-    stopifnot(quadAlways$n.input == quadSometimes$n.input)
-    stopifnot(linear$n.input == quadAlways$n.input)
-    rbind(linear$models, quadAlways$models)
-    stopifnot(all.equal(
-      with(quadAlways, models[1:(n.input+1)]),
-      with(quadSometimes, models[1:(n.input+1)])))
+    ## stopifnot(quadAlways$n.input == quadSometimes$n.input)
+    ## stopifnot(linear$n.input == quadAlways$n.input)
+    ## rbind(linear$models, quadAlways$models)
+    ## stopifnot(all.equal(
+    ##   with(quadAlways, models[1:(n.input+1)]),
+    ##   with(quadSometimes, models[1:(n.input+1)])))
     timing.dt.list[[paste(sim.fun.i, N)]] <- data.table(
       N, n.input, sim.fun.row, micro.df)
   }

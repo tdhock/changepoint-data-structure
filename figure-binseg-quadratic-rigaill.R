@@ -83,14 +83,10 @@ print(dl)
 new.expr.colors <- c(
   "binseg\nlinear"="grey50", linear="black",
   "binseg\nquadratic"="#A6CEE3", quadratic="#1F78B4",#blue
-  "#B2DF8A", "#33A02C",#green
-  "#FB9A99", "#E31A1C",#red
-  "#FDBF6F", "#FF7F00",#orange
-  binseg="#CAB2D6", "#6A3D9A",#purple
-  "#FFFF99", "#B15928")#yellow/brown
+  binseg="#CAB2D6")#yellow/brown
 stats.dt[, steps := ifelse(grepl("binseg", expr), "1-2", "2")]
-some.stats <- stats.dt[!grepl("Sometimes|Always", expr)]
-some.stats[, new.expr := sub("[.]", "\n", sub("Rigaill", "quadratic", expr))]
+some.stats <- stats.dt
+some.stats[, new.expr := sub("[.]", "\n", sub("quadSometimes", "quadratic", expr))]
 gg <- ggplot()+
   theme_bw()+
   theme(panel.spacing=grid::unit(0, "lines"))+
@@ -122,7 +118,7 @@ tikz("figure-binseg-quadratic-rigaill-alone.tex", 6, 3, standAlone=TRUE)
 print(dl)
 dev.off()
 system("pdflatex figure-binseg-quadratic-rigaill-alone")
-tikz("figure-binseg-quadratic-rigaill.tex", 6, 3)
+tikz("figure-binseg-quadratic-rigaill.tex", width=6, height=3)
 print(dl)
 dev.off()
 

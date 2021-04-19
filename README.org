@@ -1,18 +1,27 @@
 ** Source code for figures in paper
 
 For reproducibility purposes a [[file:Makefile]] has been included. Typing
-"make" on the command line should run the following scripts which
-create the figures from the paper. Result figures will be in
+the following commands should download/clone this repo which create
+the figures from the paper.
+
+#+BEGIN_SRC shell-script
+git clone https://github.com/tdhock/changepoint-data-structure
+cd changepoint-data-structure
+rm -f *.rds *.csv
+make
+#+END_SRC
+
+Result figures will be in
 [[file:figures.pdf][figures.pdf]] which has corresponding source file [[file:figures.tex]].
 
 - [[file:figure-three-iterations.R][Figure 1]]: demonstration of iterations 2 and 3 of proposed algorithm.
 - [[file:figure-loss-small-evals.R][Figure 2]]: empirical number of iterations.
 - [[file:figure-fullpath-db-binseg.R][Figure 3 left]]: empirical timings for linear/quadratic algorithms,
   [[file:figure-fullpath-grid-timing.R][right]]: empirical timings for linear/quadratic/grid search.
-- [[file:figure-chipseq-cv.R][Figure 4]]: accuracy in 4-fold cross-validation experiments.
-- [[file:figure-binseg-quadratic-rigaill.R][Figure 5]]: empirical timings in different simulations.
-- Figure 6: [[file:figure-kmeans-simple.R][Kmeans]], [[file:figure-pca-simple.R][PCA]], [[file:figure-regression-simple.R][Regression]].
-- [[file:figure-crops-compare.R][Figure 7]]: timing comparison with CROPS and PDPA.
+- [[file:figure-binseg-quadratic-rigaill.R][Figure 4]]: empirical timings in different simulations.
+- [[file:figure-chipseq-cv.R][Figure 5]]: accuracy in 4-fold cross-validation experiments.
+- [[file:figure-crops-compare.R][Figure 6]]: timing comparison with CROPS and PDPA.
+- Figure 7: [[file:figure-kmeans-simple.R][Kmeans]], [[file:figure-pca-simple.R][PCA]], [[file:figure-regression-simple.R][Regression]].
 
 Note that each figure script linked above depends on csv/rds data
 files which are pre-computed/cached by other R scripts (see details

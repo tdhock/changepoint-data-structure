@@ -142,6 +142,6 @@ data=bound.dt)+
     breaks=c(range(both.dt$total.evals), break.vec))+
   guides(color="none")
 print(gg)
-tikz("figure-loss-small-evals.tex", 5.5, 2.1)
+tikz("figure-loss-small-evals.tex", width=5.5, height=2.1)
 print(gg)
 dev.off()

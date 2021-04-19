@@ -70,7 +70,7 @@ works_with_R(
   namedCapture="2019.7.30",
   "tdhock/penaltyLearning@e523cfa817a34df9d03e6bb7e8bb9dbc8fb6aebf",
   ##"tdhock/penaltyLearning@eaeadbf7f02d2636377c2eeb290fd59c2085b5d5",
-  ##"tdhock/binseg@d79b6022a33a7e94cd153a52c5a0a6675bbe76a7",
+  "tdhock/binseg@d79b6022a33a7e94cd153a52c5a0a6675bbe76a7",
   R.utils="1.0",
   microbenchmark="1.4.6",
   directlabels="2018.5.22",
