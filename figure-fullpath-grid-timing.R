@@ -16,7 +16,7 @@ timing.dt <- readRDS("fullpath.grid.timing.rds")
 
 timing.dt[, algorithm := "Approx_grid"]
 big.stats[, algorithm := paste0("Exact_", expr)]
-br.vec <- 10^seq(-2, 3)
+br.vec <- 10^seq(-3, 3)
 ggplot()+
   geom_line(aes(
     n.grid, mean.seconds, color=algorithm),

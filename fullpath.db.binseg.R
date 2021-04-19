@@ -1,7 +1,8 @@
 source("packages.R")
-one.signal <- readRDS("signal.one.big.rds")
 
 N.vec <- c(10, 100, 1000, 1e4)
+set.seed(1)
+one.signal <- data.table(logratio=rnorm(max(N.vec)))
 binseg.timing.list <- list()
 for(N in N.vec){
   print(N)
@@ -121,7 +122,7 @@ for(N in new.N){
     binseg.linear={
       loss.vec <- binseg.loss()
       .C(
-        "modelSelectionLinear_interface",
+        "modelSelectionFwd_interface",
         loss=as.double(loss.vec),
         complexity=as.double(complexity.vec),
         N=as.integer(N),
@@ -143,7 +144,7 @@ for(N in new.N){
     },
     linear={
       .C(
-        "modelSelectionLinear_interface",
+        "modelSelectionFwd_interface",
         loss=as.double(loss.vec),
         complexity=as.double(complexity.vec),
         N=as.integer(N),

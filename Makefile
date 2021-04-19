@@ -37,6 +37,8 @@ figure-fullpath-grid-timing.png: figure-fullpath-grid-timing.R fullpath.grid.tim
 	R --vanilla < $<
 figure-fullpath-db-timing.png: figure-fullpath-db-timing.R fullpath.db.timing.rds
 	R --vanilla < $<
+figure-fullpath-db-binseg.png: figure-fullpath-db-binseg.R fullpath.db.binseg.rds
+	R --vanilla < $<
 chipseq.cv.rds: chipseq.cv.R
 	R --vanilla < $<
 chipseq.grid.rds: chipseq.grid.R
@@ -48,6 +50,8 @@ neuroblastoma.grid.rds: neuroblastoma.grid.R
 fullpath.grid.timing.rds: fullpath.grid.timing.R
 	R --vanilla < $<
 fullpath.db.timing.rds: fullpath.db.timing.R
+	R --vanilla < $<
+fullpath.db.binseg.rds: fullpath.db.binseg.R
 	R --vanilla < $<
 figure-loss-small-data/index.html: figure-loss-small-data.R loss.small.rds
 	R --vanilla < $<
