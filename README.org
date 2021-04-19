@@ -1,7 +1,7 @@
 ** Source code for figures in paper
 
 For reproducibility purposes a [[file:Makefile]] has been included. Typing
-the following commands should download/clone this repo which create
+the following commands should download/clone this repo, then re-create
 the figures from the paper.
 
 #+BEGIN_SRC shell-script
@@ -11,8 +11,8 @@ rm -f *.rds *.csv
 make
 #+END_SRC
 
-Result figures will be in
-[[file:figures.pdf][figures.pdf]] which has corresponding source file [[file:figures.tex]].
+Result figures will be compiled into [[file:figures.pdf][figures.pdf]] which has
+corresponding source file [[file:figures.tex]].
 
 - [[file:figure-three-iterations.R][Figure 1]]: demonstration of iterations 2 and 3 of proposed algorithm.
 - [[file:figure-loss-small-evals.R][Figure 2]]: empirical number of iterations.
@@ -30,7 +30,7 @@ delete these files via "rm *.csv *.rds" and then re-run "make".
 
 Also note there is a [[file:packages.R]] script which takes care of
 installing/attaching packages, and is run at the start of each of
-these figure-*.R scripts.
+these R scripts.
 
 ** TODOs
 
