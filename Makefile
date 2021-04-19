@@ -33,7 +33,7 @@ figure-chipseq-cv.png: figure-chipseq-cv.R
 	R --vanilla < $<
 figure-three-iterations.tex: figure-three-iterations.R
 	R --vanilla < $<
-figure-fullpath-grid-timing.png: figure-fullpath-grid-timing.R fullpath.grid.timing.rds
+figure-fullpath-grid-timing.png: figure-fullpath-grid-timing.R fullpath.grid.timing.rds fullpath.db.timing.rds
 	R --vanilla < $<
 figure-fullpath-db-timing.png: figure-fullpath-db-timing.R fullpath.db.timing.rds
 	R --vanilla < $<
@@ -55,8 +55,8 @@ figure-loss-small-evals.tex: figure-loss-small-evals.R loss.small.evals.rds
 	R --vanilla < $<
 figure-loss-small.png: figure-loss-small.R loss.small.rds
 	R --vanilla < $<
-loss.small.rds: loss.small.R
+loss.small.evals.rds: loss.small.evals.R loss.small.rds
 	R --vanilla < $<
-loss.small.evals.rds: loss.small.evals.R
+loss.small.rds: loss.small.R
 	R --vanilla < $<
 

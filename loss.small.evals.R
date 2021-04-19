@@ -1,5 +1,4 @@
-library(data.table)
-
+source("packages.R")
 loss.small <- readRDS("loss.small.rds")
 
 nb.evals <- loss.small[, {

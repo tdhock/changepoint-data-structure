@@ -16,7 +16,12 @@ create the figures from the paper. Result figures will be in
 
 Note that each figure script linked above depends on csv/rds data
 files which are pre-computed/cached by other R scripts (see details
-below or in [[file:Makefile][Makefile]]).
+below or in [[file:Makefile][Makefile]]).  To redo all computations from scratch you can
+delete these files via "rm *.csv *.rds" and then re-run "make".
+
+Also note there is a [[file:packages.R]] script which takes care of
+installing/attaching packages, and is run at the start of each of
+these figure-*.R scripts.
 
 ** TODOs
 

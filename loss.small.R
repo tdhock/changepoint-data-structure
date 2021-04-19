@@ -1,6 +1,6 @@
+source("packages.R")
+
 data("neuroblastoma", package="neuroblastoma")
-library(data.table)
-library(ggplot2)
 nb.dt <- data.table(neuroblastoma$profiles)
 
 ## First profile has some consecutive data points that are the same.
