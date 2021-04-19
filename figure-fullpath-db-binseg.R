@@ -1,7 +1,6 @@
 source("packages.R")
 
 timing.dt <- readRDS("fullpath.db.binseg.rds")
-
 timing.dt[, seconds := time /1e9]
 ggplot()+
   geom_point(aes(
@@ -9,32 +8,28 @@ ggplot()+
     data=timing.dt)
 
 ##lite        dark
+table(timing.dt$expr)
+timing.dt[, algorithm := factor(sub("quadSometimes", "quadratic", expr))]
+table(timing.dt$algorithm)
 expr.colors <- c(
   binseg.linear="grey50", linear="black",
   binseg.quadratic="#A6CEE3", quadratic="#1F78B4",#blue
-  "#B2DF8A", "#33A02C",#green
-  "#FB9A99", "#E31A1C",#red
-  "#FDBF6F", "#FF7F00",#orange
-  binseg="#CAB2D6", "#6A3D9A",#purple
-  "#FFFF99", "#B15928")#yellow/brown
+  binseg="#CAB2D6")
 stats.dt <- timing.dt[, list(
   mean=mean(seconds),
   sd=sd(seconds)
-), by=.(expr, N)]
-old.levs <- levels(stats.dt$expr)
+), by=.(algorithm, N)]
+old.levs <- levels(stats.dt$algorithm)
 step.vec <- ifelse(
   grepl(".", old.levs, fixed=TRUE),
   "step1+step2",
   ifelse(old.levs=="binseg", "step1", "step2"))
 (new.levs <- structure(paste0(step.vec, "\n", old.levs), names=old.levs))
-stats.dt[, algo := new.levs[expr] ]
+stats.dt[, algo := new.levs[algorithm] ]
 algo.colors <- structure(expr.colors, names=new.levs[names(expr.colors)])
 ref.dt <- data.table(
   seconds=c(1, 60),
   label=paste(" 1", c("second", "minute")))
-lab.dt <- stats.dt[
-  J(c("quadratic", "binseg", "linear"), 10^5),
-  on=.(expr, N)]
 #1e5, 3.4 sec for binseg, 1.9 minutes for quadratic.
 gg <- ggplot()+
   theme_bw()+
