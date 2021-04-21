@@ -29,7 +29,7 @@ binseg.quadratic.rigaill.rds: binseg.quadratic.rigaill.R
 	R --vanilla < $<
 binseg.bug.valgrind.txt: binseg.bug.R
 	R --vanilla -d valgrind < binseg.bug.R
-figure-chipseq-cv.png: figure-chipseq-cv.R
+figure-chipseq-cv.png: figure-chipseq-cv.R chipseq.cv.rds
 	R --vanilla < $<
 figure-three-iterations.tex: figure-three-iterations.R
 	R --vanilla < $<
