@@ -172,7 +172,7 @@ gg <- ggplot()+
     "Cost $f_k(\\lambda) = L_k + \\lambda k$",
     breaks=seq(0, 12, by=2))
 print(gg)
-tikz("figure-three-iterations.tex", 5.5, 2)
+tikz("figure-three-iterations.tex", width=5.5, height=2)
 print(gg)
 dev.off()
 
