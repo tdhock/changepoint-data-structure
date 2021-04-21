@@ -9,17 +9,17 @@ figure-pca-simple-size.png \
 figure-regression-simple-size.png \
 figure-crops-compare.png
 	pdflatex figures
-figure-crops-compare.png: figure-crops-compare.R figure-crops-compare-data.rds
+figure-crops-compare.png: figure-crops-compare.R figure-crops-compare-data.csv
 	R --vanilla < $<
-figure-crops-compare-data.rds: figure-crops-compare-data.R
+figure-crops-compare-data.csv: figure-crops-compare-data.R
 	R --vanilla < $<
-figure-kmeans-simple-size.png: figure-kmeans-simple.R figure-kmeans-simple-data.rds
+figure-kmeans-simple-size.png: figure-kmeans-simple.R figure-kmeans-simple-data.csv
 	R --vanilla < $<
-figure-kmeans-simple-data.rds: figure-kmeans-simple-data.R
+figure-kmeans-simple-data.csv: figure-kmeans-simple-data.R
 	R --vanilla < $<
-figure-pca-simple-size.png: figure-pca-simple.R figure-pca-simple-data.rds
+figure-pca-simple-size.png: figure-pca-simple.R figure-pca-simple-data.csv
 	R --vanilla < $<
-figure-pca-simple-data.rds: figure-pca-simple-data.R
+figure-pca-simple-data.csv: figure-pca-simple-data.R
 	R --vanilla < $<
 figure-regression-simple-size.png: figure-regression-simple.R figure-regression-simple-data.rds
 	R --vanilla < $<
