@@ -39,7 +39,7 @@ figure-fullpath-db-timing.png: figure-fullpath-db-timing.R fullpath.db.timing.rd
 	R --vanilla < $<
 figure-fullpath-db-binseg.png: figure-fullpath-db-binseg.R fullpath.db.binseg.rds
 	R --vanilla < $<
-chipseq.cv.rds: chipseq.cv.R
+chipseq.cv.rds: chipseq.cv.R chipseq.grid.rds
 	R --vanilla < $<
 chipseq.grid.rds: chipseq.grid.R
 	R --vanilla < $<
