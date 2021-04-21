@@ -21,9 +21,9 @@ figure-pca-simple-size.png: figure-pca-simple.R figure-pca-simple-data.csv
 	R --vanilla < $<
 figure-pca-simple-data.csv: figure-pca-simple-data.R
 	R --vanilla < $<
-figure-regression-simple-size.png: figure-regression-simple.R figure-regression-simple-data.rds
+figure-regression-simple-size.png: figure-regression-simple.R figure-regression-simple-data.csv
 	R --vanilla < $<
-figure-regression-simple-data.rds: figure-regression-simple-data.R
+figure-regression-simple-data.csv: figure-regression-simple-data.R
 	R --vanilla < $<
 figure-binseg-quadratic-rigaill.tex: figure-binseg-quadratic-rigaill.R binseg.quadratic.rigaill.rds
 	R --vanilla < $<
