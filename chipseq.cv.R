@@ -30,13 +30,16 @@ full.grid <- rbind(
 future::plan("multiprocess")
 
 test.sets <- unique(full.grid[, .(set.name, fold, n.grid)])
+feature.is.finite <- apply(
+  is.finite(as.matrix(data.list$features[, -1])), 2, all)
 col.name.list <- list(
-  features=names(data.list$features)[-1],
+  features=names(feature.is.finite)[feature.is.finite],
   targets=c("min.log.lambda", "max.log.lambda"))
 
 some.sets <- test.sets
 ##some.sets <- test.sets[set.name=="ATAC_JV_adipose" & fold==1]
 OneSet <- function(test.set.i){
+  print(test.set.i)
   test.set <- some.sets[test.set.i]
   set.grid <- test.set[, .(set.name, n.grid)]
   all.targets <- full.grid[set.grid, on=list(set.name, n.grid)]
