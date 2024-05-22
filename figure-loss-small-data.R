@@ -78,6 +78,7 @@ some.segs[, pid.chr := paste0(profile.id, ".", chromosome)]
 some.selection[, cost.at.min.lambda := min.lambda*changes+loss]
 viz <- animint(
   title="Changepoint model selection",
+  source="https://github.com/tdhock/changepoint-data-structure/blob/master/figure-loss-small-data.R",
   selected=ggplot()+
     theme_bw()+
     ggtitle("Click to select a data set")+
@@ -170,14 +171,14 @@ viz <- animint(
       size=2,
       showSelected=c("pid.chr", "changes"),
       chunk_vars="pid.chr",
-      data=data.frame(some.loss))
-    ## geom_tallrect(aes(
-    ##   xmin=min.lambda, xmax=max.lambda),
-    ##   alpha=0.5,
-    ##   clickSelects="changes",
-    ##   showSelected="pid.chr",
-    ##   data=some.selection)
+      data=data.frame(some.loss))+
+    geom_tallrect(aes(
+      xmin=min.lambda, xmax=max.lambda),
+      alpha=0.5,
+      clickSelects="changes",
+      showSelected="pid.chr",
+      data=some.selection)
 )
 animint2dir(viz, "figure-loss-small-data")
-animint2gist(viz)
+##animint2pages(viz, "2024-05-22-changepoint-model-selection")
 

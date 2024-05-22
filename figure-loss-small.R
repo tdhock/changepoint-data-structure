@@ -48,6 +48,9 @@ some.segs <- some.nb[, {
   }
   do.call(rbind, seg.list)
 }, by=list(profile.id, chromosome)]
+some.breaks <- some.segs[0 < changes, list(
+  megabases=(segStart[-1]+segEnd[-.N])/2e6
+), by=list(profile.id, chromosome, changes)]
 some.selection <- some.loss[selected=="yes", {
   penaltyLearning::modelSelection(.SD, complexity="changes")
 }, by=list(profile.id, chromosome)]
